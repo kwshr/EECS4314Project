@@ -1,8 +1,14 @@
 name: Main Workflow
-on:
- push:
-  paths:
-    - 'e-auction/**'
+push:
+    branches:
+      - main
+    paths:
+      - 'e-auction/**'
+  pull_request:
+    paths:
+      - 'e-auction/**'
+    types:
+      - closed
     
 jobs:
   frontend-job:
