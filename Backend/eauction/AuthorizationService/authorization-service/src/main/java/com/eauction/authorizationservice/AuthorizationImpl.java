@@ -3,21 +3,28 @@ package com.eauction.authorizationservice;
 public class AuthorizationImpl implements Authorization{
 
     @Override
-    public void SignUp(User user) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'SignUp'");
+    public AuthorizationResult SignUp(User user) {
+        String userName = user.getUserName();
+        String password = user.getPassword();
+        String firstName = user.getFirstName();
+        String lastName = user.getLastName();
+        ShippingAddress shippingAddress = user.getShippingAddress();
+        String streetName = shippingAddress.getStreetName();
+        int streetNumber = shippingAddress.getStreetNumber();
+        String city = shippingAddress.getCity();
+        String country = shippingAddress.getCountry();
+        String postalCode = shippingAddress.getPostalCode();
+        return new AuthorizationResult(AuthorizationResultStatus.NOT_IMPLEMENTED,"Implementation in progress");
     }
 
     @Override
-    public void SignIn(Credential cred) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'SignIn'");
+    public AuthorizationResult SignIn(String userName, String password) {
+        return new AuthorizationResult(AuthorizationResultStatus.NOT_IMPLEMENTED,"Implementation in progress");
     }
 
     @Override
-    public String PasswordReset(String username) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'PasswordReset'");
+    public AuthorizationResult PasswordReset(String username, String newPassword) {
+        return new AuthorizationResult(AuthorizationResultStatus.NOT_IMPLEMENTED,"Implementation in progress");
     }
      
 }
