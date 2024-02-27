@@ -1,7 +1,7 @@
 package com.eauction.authorizationservice;
 
 public interface Authorization {
-    public void SignUp(User user);
-    public void SignIn(Credential cred);
-    public String PasswordReset(String username);
+    AuthorizationResult SignUp(User user);
+    AuthorizationResult SignIn(String userName, String password);
+    AuthorizationResult PasswordReset(String username, String newPassword);
 }
