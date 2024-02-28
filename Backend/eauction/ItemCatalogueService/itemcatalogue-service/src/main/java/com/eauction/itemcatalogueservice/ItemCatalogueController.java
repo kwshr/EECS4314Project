@@ -48,13 +48,4 @@ public class ItemCatalogueController {
         response.put("data",itemCatalogueQueryResult.getData());
         return HttpResponseStatus.setResponse(response);
     }
-
-    // @RequestMapping(value="/addItem", method=RequestMethod.POST)
-    // public ResponseEntity<Map<String,Object>> passwordReset(@RequestBody Item item) {
-    //     ItemCatalogueQueryResult itemCatalogueQueryResult = itemCatalogueImpl.addItem(item);
-    //     Map<String,Object> response = new HashMap<String,Object>();
-    //     response.put("message",itemCatalogueQueryResult.getMessage());
-    //     response.put("queryStatus", itemCatalogueQueryResult.getItemCatalogueQueryResultStatus());
-    //     return HttpResponseStatus.setResponse(response);
-    // }
 }
