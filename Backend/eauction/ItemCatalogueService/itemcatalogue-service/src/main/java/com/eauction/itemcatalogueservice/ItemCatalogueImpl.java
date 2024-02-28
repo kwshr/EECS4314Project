@@ -1,25 +1,25 @@
 package com.eauction.itemcatalogueservice;
 
-import java.util.List;
-
 public class ItemCatalogueImpl implements ItemCatalogue{
 
     @Override
-    public List<Item> Search(String keyword) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'Search'");
+    public  ItemCatalogueQueryResult Search(String keyword) {
+       return new ItemCatalogueQueryResult(ItemCatalogueQueryResultStatus.NOT_IMPLEMENTED,"not implemented");
     }
 
     @Override
-    public List<Item> getAuctionedItems() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAuctionedItems'");
+    public ItemCatalogueQueryResult getAuctionedItems() {
+        return new ItemCatalogueQueryResult(ItemCatalogueQueryResultStatus.NOT_IMPLEMENTED,"not implemented");
     }
 
     @Override
-    public Item getItem(int itemId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getItem'");
+    public ItemCatalogueQueryResult getItem(int itemId) {
+        return new ItemCatalogueQueryResult(ItemCatalogueQueryResultStatus.NOT_IMPLEMENTED,"not implemented");
+    }
+
+    @Override
+    public ItemCatalogueQueryResult addItem(Item item) {
+        return new ItemCatalogueQueryResult(ItemCatalogueQueryResultStatus.NOT_IMPLEMENTED,"not implemented");
     }
     
 }
