@@ -1,19 +1,20 @@
 package com.eauction.sellerservice;
 
+import org.springframework.stereotype.Service;
+
 import com.common.Item;
 
+@Service
 public class SellerImpl implements Seller {
 
     @Override
-    public void uploadSellItems(Item item) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'uploadSellItems'");
+    public SellerQueryResult addSellItems(Item item) {
+        return new SellerQueryResult(null, null);
     }
 
     @Override
-    public void updateDutchAuctionprice(int itemId, double newprice) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateDutchAuctionprice'");
+    public SellerQueryResult updateDutchAuctionprice(int itemId, double newprice) {
+        return new SellerQueryResult(null, null);
     }
     
 }

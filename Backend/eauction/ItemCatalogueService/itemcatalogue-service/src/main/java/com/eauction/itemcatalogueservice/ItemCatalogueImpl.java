@@ -1,7 +1,5 @@
 package com.eauction.itemcatalogueservice;
 
-import com.common.Item;
-
 public class ItemCatalogueImpl implements ItemCatalogue{
 
     @Override
@@ -17,11 +15,5 @@ public class ItemCatalogueImpl implements ItemCatalogue{
     @Override
     public ItemCatalogueQueryResult getItem(int itemId) {
         return new ItemCatalogueQueryResult(ItemCatalogueQueryResultStatus.NOT_IMPLEMENTED,"not implemented");
-    }
-
-    @Override
-    public ItemCatalogueQueryResult addItem(Item item) {
-        return new ItemCatalogueQueryResult(ItemCatalogueQueryResultStatus.NOT_IMPLEMENTED,"not implemented");
-    }
-    
+    }    
 }
