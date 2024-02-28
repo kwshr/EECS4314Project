@@ -1,6 +1,8 @@
 package com.eauction.sellerservice;
 
+import com.common.Item;
+
 public interface Seller {
-    public void uploadSellItems(ItemDetails details);
+    void uploadSellItems(Item item);
     public void updateDutchAuctionprice(int itemId, double newprice);
 }

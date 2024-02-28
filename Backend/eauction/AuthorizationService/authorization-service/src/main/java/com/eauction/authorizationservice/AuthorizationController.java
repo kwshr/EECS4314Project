@@ -31,14 +31,14 @@ public class AuthorizationController {
         this.authorizationImpl = authorizationImpl;
     }
 
-    @RequestMapping(value="/signUp", method=RequestMethod.POST)
-    public ResponseEntity<Map<String,Object>> signUpUser(@RequestBody User user) {
-        AuthorizationResult authorizationResult = authorizationImpl.SignUp(user);
-        Map<String,Object> response = new HashMap<String,Object>();
-        response.put("message",authorizationResult.getMessage());
-        response.put("queryStatus", authorizationResult.getAuthorizationStatus());
-        return HttpResponseStatus.setResponse(response);
-    }
+    // @RequestMapping(value="/signUp", method=RequestMethod.POST)
+    // public ResponseEntity<Map<String,Object>> signUpUser(@RequestBody User user) {
+    //     AuthorizationResult authorizationResult = authorizationImpl.SignUp(user);
+    //     Map<String,Object> response = new HashMap<String,Object>();
+    //     response.put("message",authorizationResult.getMessage());
+    //     response.put("queryStatus", authorizationResult.getAuthorizationStatus());
+    //     return HttpResponseStatus.setResponse(response);
+    // }
 
     @RequestMapping(value="/signIn", method=RequestMethod.POST)
     public ResponseEntity<Map<String,Object>> signInUser(@RequestBody Map<String,String> credentials) {
