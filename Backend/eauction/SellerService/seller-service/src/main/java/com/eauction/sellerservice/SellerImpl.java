@@ -1,9 +1,11 @@
 package com.eauction.sellerservice;
 
+import com.common.Item;
+
 public class SellerImpl implements Seller {
 
     @Override
-    public void uploadSellItems(ItemDetails details) {
+    public void uploadSellItems(Item item) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'uploadSellItems'");
     }

@@ -1,5 +1,9 @@
 package com.eauction.authorizationservice;
 
+import com.common.*;
+import org.springframework.stereotype.Service;
+
+@Service
 public class AuthorizationImpl implements Authorization{
 
     @Override

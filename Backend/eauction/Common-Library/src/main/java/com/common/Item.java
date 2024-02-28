@@ -1,4 +1,4 @@
-package com.eauction.itemcatalogueservice;
+package com.common;
 
 public class Item {
     private int itemId;

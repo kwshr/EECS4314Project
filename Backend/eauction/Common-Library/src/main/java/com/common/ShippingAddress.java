@@ -1,4 +1,4 @@
-package com.eauction.authorizationservice;
+package com.common;
 
 public class ShippingAddress {
     private String streetName;

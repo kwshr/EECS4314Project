@@ -1,12 +1,10 @@
-package com.eauction.authorizationservice;
-import org.springframework.beans.factory.annotation.Autowired;
+package com.common;
 
 public class User {
     private String userName;
     private String firstName;
     private String lastName;
     private String password;
-    @Autowired
     private ShippingAddress shippingAddress;
 
     public String getUserName(){

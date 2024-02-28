@@ -1,5 +1,7 @@
 package com.eauction.itemcatalogueservice;
 
+import com.common.Item;
+
 public class ItemCatalogueImpl implements ItemCatalogue{
 
     @Override

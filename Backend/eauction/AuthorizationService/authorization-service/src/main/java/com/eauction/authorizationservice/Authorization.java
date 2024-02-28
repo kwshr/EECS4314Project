@@ -1,4 +1,5 @@
 package com.eauction.authorizationservice;
+import com.common.*;
 
 public interface Authorization {
     AuthorizationResult SignUp(User user);
