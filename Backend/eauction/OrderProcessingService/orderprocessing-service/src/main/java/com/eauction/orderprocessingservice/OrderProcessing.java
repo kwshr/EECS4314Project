@@ -1,6 +1,8 @@
 package com.eauction.orderprocessingservice;
 
+import java.util.Map;
+
 public interface OrderProcessing {
-    public Receipt generateReceipt (int itemId, User user);
-    public void updateItems(int itemId);
+    public Map<String,String> generateReceipt (OrderRequest request);
+    OrderProcessingQueryResult updateItems(int itemId);
 }

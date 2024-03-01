@@ -1,15 +1,17 @@
 package com.eauction.orderprocessingservice;
 
+import java.util.Map;
+
 public class OrderProcessingImpl implements OrderProcessing {
 
     @Override
-    public Receipt generateReceipt(int itemId, User user) {
+    public Map<String,String> generateReceipt(OrderRequest request) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'generateReceipt'");
     }
 
     @Override
-    public void updateItems(int itemId) {
+    public OrderProcessingQueryResult updateItems(int itemId) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updateItems'");
     }
