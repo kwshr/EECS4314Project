@@ -14,7 +14,7 @@ public class ShippingController {
     @Autowired
     private ShippingImpl shippingImpl;
 
-    @RequestMapping(value="/calculateShippingCost/{itemid}/{shippingType}", method=RequestMethod.POST)
+    @RequestMapping(value="/calculateShippingCost/{itemid}/{shippingType}", method=RequestMethod.PUT)
     public ResponseEntity<Map<String,Object>> calculateShippingCost(@PathVariable("itemId") int itemId,@PathVariable("shippingType") String shippingType ) {
         ShippingQueryResult shippingQueryResult = shippingImpl.calculateShippingCost(itemId, shippingType);
         Map<String,Object> response = new HashMap<String,Object>();
