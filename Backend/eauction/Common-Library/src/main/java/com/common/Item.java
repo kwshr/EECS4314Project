@@ -90,7 +90,7 @@ public class Item {
         this.expediatedShippingCost = expediatedShippingCost;
     }
 
-    public double setFinalShippingCost(double finalShippingCost) {
+    public void setFinalShippingCost(double finalShippingCost) {
         this.finalShippingCost = finalShippingCost;
     }
 
