@@ -15,7 +15,7 @@ public class AuctionImpl implements Auction {
     }
 
     @Override
-    public String endAuction() {
+    public String endAuction(int itenId) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'endAuction'");
     }
