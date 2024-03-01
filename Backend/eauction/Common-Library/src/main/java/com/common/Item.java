@@ -6,6 +6,9 @@ public class Item {
     private String itemDescription;
     private String auctionType;
     private long price;
+    private double shippingCost;
+    private double expediatedShippingCost;
+    private double finalShippingCost;
     private int fixedTimeLimit;
     private long dutchReservedPrice;
     private long dutchDecrementAmount;
@@ -29,6 +32,18 @@ public class Item {
 
     public long getPrice() {
         return price;
+    }
+
+    public double getShippingCost() {
+        return shippingCost;
+    }
+
+    public double getExpediatedShippingCost() {
+        return expediatedShippingCost;
+    }
+    
+    public double getFinalShippingCost() {
+        return expediatedShippingCost;
     }
 
     public int getFixedTimeLimit() {
@@ -65,6 +80,18 @@ public class Item {
 
     public void setPrice(long price) {
         this.price = price;
+    }
+
+    public void setShippingCost(double shippingCost) {
+        this.shippingCost = shippingCost;
+    }
+
+    public void setExpediatedShippingCost(double expediatedShippingCost) {
+        this.expediatedShippingCost = expediatedShippingCost;
+    }
+
+    public double setFinalShippingCost(double finalShippingCost) {
+        this.finalShippingCost = finalShippingCost;
     }
 
     public void setFixedTimeLimit(int fixedTimeLimit) {
