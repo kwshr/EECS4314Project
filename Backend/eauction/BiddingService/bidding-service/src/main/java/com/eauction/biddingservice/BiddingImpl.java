@@ -1,5 +1,7 @@
 package com.eauction.biddingservice;
 
+import com.common.User;
+
 public class BiddingImpl implements Bidding {
 
     @Override
