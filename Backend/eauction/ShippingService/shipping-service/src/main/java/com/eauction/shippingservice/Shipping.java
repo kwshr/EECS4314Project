@@ -1,6 +1,6 @@
 package com.eauction.shippingservice;
 
 public interface Shipping {
-    public double calculateShippingCost(int itemId, String shippingType);
-    public String displayShippingDetails(int itemId, Details userDetails);
+    ShippingQueryResult calculateShippingCost(int itemId, String shippingType);
+    ShippingQueryResult displayShippingDetails(int itemId);
 }
