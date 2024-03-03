@@ -5,6 +5,7 @@ public class AuctionImpl implements Auction {
     @Override
     public void startAuction(int itemId) {
         // TODO Auto-generated method stub
+        //add item in the auction table
         throw new UnsupportedOperationException("Unimplemented method 'startAuction'");
     }
 
@@ -17,6 +18,7 @@ public class AuctionImpl implements Auction {
     @Override
     public String endAuction(int itenId) {
         // TODO Auto-generated method stub
+        //add type in the auction table
         throw new UnsupportedOperationException("Unimplemented method 'endAuction'");
     }
     

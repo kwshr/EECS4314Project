@@ -1,5 +1,36 @@
 package com.eauction.biddingservice;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 public class BiddingController {
     
+    @Autowired
+    private BiddingImpl biddingImpl;
+
+    @RequestMapping(value="/placeBid/{userName}/{itemId}/{newPrice}", method=RequestMethod.POST)
+    public ResponseEntity<Map<String,Object>> generateReceipt(@PathVariable("userName") String userName,@PathVariable("itemId") int itemId, @PathVariable("newPrice") Double newPrice ) {
+        Map<String,Object> response = new HashMap<String,Object>();
+        BiddingQueryResult biddingQueryResult= biddingImpl.placeBid(itemId, newPrice, userName);
+        response.put("message",biddingQueryResult.getMessage());
+        response.put("queryStatus", biddingQueryResult.getItemCatalogueQueryResultStatus());
+        return HttpResponseStatus.setResponse(response);
+    }
+
+    @RequestMapping(value="/updateForwardAuctionPrice/{userName}/{itemId}/{newPrice}", method=RequestMethod.POST)
+    public ResponseEntity<Map<String,Object>> updateForwardAuctionPrice(@PathVariable("userName") String userName,@PathVariable("itemId") int itemId, @PathVariable("newPrice") Double newPrice ) {
+        Map<String,Object> response = new HashMap<String,Object>();
+        BiddingQueryResult biddingQueryResult= biddingImpl.updateForwardAuctionprice(itemId, newPrice, userName);
+        response.put("message",biddingQueryResult.getMessage());
+        response.put("queryStatus", biddingQueryResult.getItemCatalogueQueryResultStatus());
+        return HttpResponseStatus.setResponse(response);
+    }
 }
