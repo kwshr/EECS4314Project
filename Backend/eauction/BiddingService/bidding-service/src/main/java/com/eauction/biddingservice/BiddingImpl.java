@@ -1,17 +1,15 @@
 package com.eauction.biddingservice;
 
-import com.common.User;
-
 public class BiddingImpl implements Bidding {
 
     @Override
-    public void placeBid(int itemId, double newPrice, User user) {
+    public BiddingQueryResult placeBid(int itemId, double newPrice, String userName) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'placeBid'");
     }
 
     @Override
-    public Double updateForwardAuctionprice(int itemId, double newprice) {
+    public BiddingQueryResult updateForwardAuctionprice(int itemId, double newprice, String userName) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updateForwardAuctionprice'");
     }
