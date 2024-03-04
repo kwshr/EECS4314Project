@@ -8,12 +8,13 @@ public class Item {
     private long price;
     private int shippingTime;
     private double shippingCost;
-    private double expediatedShippingCost;
+    private double expeditedShippingCost;
     private double finalShippingCost;
     private int fixedTimeLimit;
     private long dutchReservedPrice;
     private long dutchDecrementAmount;
     private int dutchDecrementTimeInterval;
+    private int sellerId;
 
     public String getItemName() {
         return itemName;
@@ -43,12 +44,12 @@ public class Item {
         return shippingCost;
     }
 
-    public double getExpediatedShippingCost() {
-        return expediatedShippingCost;
+    public double getExpeditedShippingCost() {
+        return expeditedShippingCost;
     }
     
     public double getFinalShippingCost() {
-        return expediatedShippingCost;
+        return finalShippingCost;
     }
 
     public int getFixedTimeLimit() {
@@ -67,10 +68,10 @@ public class Item {
         return dutchDecrementTimeInterval;
     }
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
+    public int getSellerId(){
+        return sellerId;
     }
-
+    
     public void setItemName(String itemName) {
         this.itemName = itemName;
     }
@@ -95,8 +96,8 @@ public class Item {
         this.shippingCost = shippingCost;
     }
 
-    public void setExpediatedShippingCost(double expediatedShippingCost) {
-        this.expediatedShippingCost = expediatedShippingCost;
+    public void setExpeditedShippingCost(double expeditedShippingCost) {
+        this.expeditedShippingCost = expeditedShippingCost;
     }
 
     public void setFinalShippingCost(double finalShippingCost) {
@@ -117,6 +118,10 @@ public class Item {
 
     public void setDutchDecrementTimeInterval(int dutchDecrementTimeInterval) {
         this.dutchDecrementTimeInterval = dutchDecrementTimeInterval;
+    }
+
+    public void setSellerId(int sellerId){
+        this.sellerId = sellerId;
     }
 
 }
