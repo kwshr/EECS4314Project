@@ -30,15 +30,12 @@ public class AuctionController {
 
     @RequestMapping(value="/getRemainingTime/{itemId}", method=RequestMethod.GET)
     public ResponseEntity<Map<String,Object>> getRemainingTime(@RequestBody int itemId) {
-         Map<String,Object>  response = new HashMap<>();
-         try{
-         String time = auctionImpl.getRemainingTimeUpdate(itemId);
-         response.put("message","Remaining time: "+ time);
-         return ResponseEntity.ok(response);
-        }catch(Exception e){
-            response.put("message","Failed to retrive the remaining time");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-        }
+         Map<String,Object> response = new HashMap<String,Object>();
+         AuctionQueryResult auctionQueryResult = auctionImpl.getRemainingTimeUpdate(itemId);
+         response.put("message",auctionQueryResult.getMessage());
+         response.put("queryStatus", auctionQueryResult.getAuctionStatus());
+         response.put("data", auctionQueryResult.getData());
+         return HttpResponseStatus.setResponse(response);
     }
 
     @RequestMapping(value="/endAuction/{itemId}", method=RequestMethod.POST)
