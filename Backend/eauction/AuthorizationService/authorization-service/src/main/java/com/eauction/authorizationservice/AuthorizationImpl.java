@@ -33,8 +33,8 @@ public class AuthorizationImpl implements Authorization{
                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             jdbcTemplate.update(query, userName, password, firstName, lastName, streetName, streetNumber, city, country, postalCode);
             return new AuthorizationQueryResult(AuthorizationQueryResultStatus.SUCCESS, "User signed up successfully");
-        } catch (DataAccessException e) {
-            return new AuthorizationQueryResult(AuthorizationQueryResultStatus.ERROR, "Failed to sign up user");
+        } catch (Exception e) {
+            return new AuthorizationQueryResult(AuthorizationQueryResultStatus.ERROR, "Failed to sign up user :"+ e.getMessage());
         }
      }
 
