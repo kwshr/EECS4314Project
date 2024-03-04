@@ -1,0 +1,54 @@
+.signin-container {
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .signin-form-container {
+    max-width: 400px;
+    margin: 20px auto;
+    text-align: center;
+  }
+  
+  .signin-title {
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .signin-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  .signin-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #5c6bc0;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    text-transform: uppercase;
+  }
+  
+  .signin-btn:hover {
+    background-color: #3949ab;
+  }
+  
+  .forgot-password-btn {
+    background: none;
+    border: none;
+    color: #5c6bc0;
+    cursor: pointer;
+    padding: 10px;
+    display: inline-block; /* To keep the button text-aligned */
+    margin-top: 10px;
+  }
+  
+  .forgot-password-btn:hover {
+    text-decoration: underline;
+  }
+  

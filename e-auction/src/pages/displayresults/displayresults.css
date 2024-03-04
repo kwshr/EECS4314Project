@@ -1,0 +1,48 @@
+.displayresults-container {
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .results-table {
+    width: 98%; /* Almost full width */
+    margin: 10px auto; /* Center the table on the page */
+    border-collapse: collapse; /* Collapse borders */
+  }
+  
+  .results-table th,
+  .results-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .results-table th {
+    background-color: #f8f8f8;
+  }
+  
+  .buttons-container {
+    display: flex;
+    justify-content: space-between; /* Position buttons on opposite ends */
+    margin: 20px;
+  }
+  
+  .back-search-btn,
+  .bid-btn {
+    padding: 10px 20px;
+    border: none;
+    background-color: #5c6bc0;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .back-search-btn:hover,
+  .bid-btn:hover {
+    background-color: #3949ab;
+  }
+  
+  .bid-btn:disabled {
+    background-color: #ccc;
+    cursor: default;
+  }
+  
