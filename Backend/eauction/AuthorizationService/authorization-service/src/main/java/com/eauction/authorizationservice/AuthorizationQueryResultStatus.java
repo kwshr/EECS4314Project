@@ -1,6 +1,6 @@
 package com.eauction.authorizationservice;
 
-public enum AuthorizationResultStatus {
+public enum AuthorizationQueryResultStatus {
     SUCCESS,
     NOT_FOUND,
     ERROR,
