@@ -2,7 +2,7 @@ package com.eauction.authorizationservice;
 import com.common.*;
 
 public interface Authorization {
-    AuthorizationResult SignUp(User user);
-    AuthorizationResult SignIn(String userName, String password);
-    AuthorizationResult PasswordReset(String username, String newPassword);
+    AuthorizationQueryResult SignUp(User user);
+    AuthorizationQueryResult SignIn(String userName, String password);
+    AuthorizationQueryResult PasswordReset(String username, String newPassword);
 }
