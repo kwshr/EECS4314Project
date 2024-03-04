@@ -6,7 +6,7 @@ public class Item {
     private String itemDescription;
     private String auctionType;
     private long price;
-    priavte int shippingTime;
+    private int shippingTime;
     private double shippingCost;
     private double expediatedShippingCost;
     private double finalShippingCost;
