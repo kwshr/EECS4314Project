@@ -72,6 +72,10 @@ public class Item {
         return sellerId;
     }
     
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
+
     public void setItemName(String itemName) {
         this.itemName = itemName;
     }
