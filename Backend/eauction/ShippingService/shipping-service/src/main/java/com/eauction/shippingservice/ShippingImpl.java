@@ -4,8 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
-import com.common.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ShippingImpl implements Shipping{
 
