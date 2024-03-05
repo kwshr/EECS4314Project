@@ -27,6 +27,7 @@ CREATE TABLE Items (
     AuctionType                VARCHAR(10) CHECK (AuctionType IN ('Forward', 'Dutch')) NOT NULL,
     Price                      BIGINT NOT NULL,
     ShippingTime               INT NOT NULL,
+    ExpeditedShipping          BOOLEAN DEFAULT false,
     ShippingCost               DOUBLE NOT NULL,
     ExpeditedShippingCost      DOUBLE NOT NULL,
     FinalShippingCost          DOUBLE NOT NULL,
@@ -46,18 +47,9 @@ CREATE TABLE Auctions (
     CurrentPrice  DECIMAL(10, 2),
     AuctionStatus        VARCHAR(10) CHECK (AuctionStatus IN ('NotStarted', 'Active', 'Ended', 'Paid')) DEFAULT 'NotStarted' NOT NULL,
     AuctionType   VARCHAR(10) CHECK (AuctionType IN ('Forward', 'Dutch')) DEFAULT 'Forward' NOT NULL,
-    WinnerID      INTEGER,
+    WinningBidder       INTEGER,
     FOREIGN KEY (ItemID) REFERENCES Items(ItemID),
-    FOREIGN KEY (WinnerID) REFERENCES Users(UserID)
-);
-CREATE TABLE Bids (
-    BidID       INT AUTO_INCREMENT PRIMARY KEY,
-    AuctionID   INT,
-    BidderID    INT,
-    BidAmount   DECIMAL(10, 2) NOT NULL,
-    BidDateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (AuctionID) REFERENCES Auctions(AuctionID),
-    FOREIGN KEY (BidderID) REFERENCES Users(UserID)
+    FOREIGN KEY (WinningBidder) REFERENCES Users(UserID)
 );
 CREATE TABLE Payments (
     PaymentID       INT AUTO_INCREMENT PRIMARY KEY,
