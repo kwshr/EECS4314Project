@@ -92,6 +92,9 @@ public class ItemCatalogueImpl implements ItemCatalogue{
 
     @Override
     public ItemCatalogueQueryResult getItem(int itemId) {
+        if(itemId <= 0){
+            return new ItemCatalogueQueryResult(ItemCatalogueQueryResultStatus.NO_INPUT, "Itemid should be more than 0");
+        }
         try (Connection connection = databaseConnection.connect()) {
             String query = "SELECT * FROM Items WHERE ItemID = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {

@@ -17,6 +17,9 @@ public class ShippingImpl implements Shipping{
 
     @Override
     public ShippingQueryResult calculateShippingCost(int itemId) {
+        if(itemId<=0){
+            return new ShippingQueryResult(ShippingQueryResultStatus.ERROR, "ItemId cannot be less than 1");
+        }
         try (Connection connection = databaseConnection.connect()) {
             if (!itemExists(connection, itemId)) {
                 return new ShippingQueryResult(ShippingQueryResultStatus.ERROR, "Item not found for ID: " + itemId);
@@ -70,6 +73,9 @@ public class ShippingImpl implements Shipping{
 
     @Override
     public ShippingQueryResult setExpeditedShipping(int itemId){
+        if(itemId<=0){
+            return new ShippingQueryResult(ShippingQueryResultStatus.ERROR, "ItemId cannot be less than 1");
+        }
         try (Connection connection = databaseConnection.connect()) {
             if (!itemExists(connection, itemId)) {
                 return new ShippingQueryResult(ShippingQueryResultStatus.ERROR, "Item not found for ID: " + itemId);

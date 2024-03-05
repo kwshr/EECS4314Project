@@ -29,7 +29,14 @@ public class SellerImpl implements Seller {
         long dutchDecrementAmount = item.getDutchDecrementAmount();
         int dutchDecrementTimeInterval = item.getDutchDecrementTimeInterval();
         int sellerId = item.getSellerId();
-        
+
+        if(itemName == null || itemDescription == null || auctionType == null ||
+        price <= 0 || shippingTime <= 0 || shippingCost <= 0 || expeditedShippingCost <= 0 ||
+        finalShippingCost <= 0 || fixedTimeLimit <= 0 || dutchReservedPrice <= 0 ||
+        dutchDecrementAmount <= 0 || dutchDecrementTimeInterval <= 0 || sellerId <= 0){
+            return new SellerQueryResult(SellerServiceQueryStatus.ERROR, "Invalid values provided, Please try again");
+        }
+
         try (Connection connection = databaseConnection.connect()) {
             String query = "INSERT INTO Items " +
                     "(ItemName, ItemDescription, AuctionType, Price, ShippingTime, ShippingCost, " +
@@ -65,6 +72,9 @@ public class SellerImpl implements Seller {
 
     @Override
     public SellerQueryResult updateDutchAuctionprice(int itemId, double newPrice) {
+        if(itemId<=0 || newPrice <=0 ){
+            return new SellerQueryResult(SellerServiceQueryStatus.ERROR, "ItemId and newPrice cannot be less than 1. Please, try again");
+        }
         try (Connection connection = databaseConnection.connect()) {
             String query = "UPDATE Auctions SET CurrentPrice = ? WHERE ItemID = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
