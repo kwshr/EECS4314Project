@@ -2,7 +2,7 @@ package com.eauction.paymentservice;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import com.common.*;
+
 import org.springframework.stereotype.Service;
 
 @Service

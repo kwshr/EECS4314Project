@@ -1,10 +1,10 @@
-package com.common;
+package com.eauction.orderprocessingservice;
 
 import org.springframework.context.annotation.Configuration;
-import javax.sql.DataSource;
-
 import java.sql.Connection;
 import java.sql.SQLException;
+
+import javax.sql.DataSource;
 
 @Configuration
 public class DatabaseConnection {
@@ -25,5 +25,4 @@ public class DatabaseConnection {
         return conn;
     }
 }
-
 
