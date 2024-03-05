@@ -16,6 +16,9 @@ public class PaymentImpl implements Payment{
 
     @Override
     public PaymentQueryResult processPayment(String userName,int itemId) {
+        if(userName == null || itemId<=0){
+            return new PaymentQueryResult(PaymentQueryResultStatus.ERROR, "Username cannot be null and itemId should be more than 1");
+        }
         try(Connection connection = databaseConnection.connect()){
             String query = "INSERT INTO Payments (AuctionID, PayerID, Amount) " +
             "SELECT a.AuctionID, u.UserID, a.CurrentPrice " +

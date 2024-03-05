@@ -18,6 +18,9 @@ public class OrderProcessingImpl implements OrderProcessing {
 
     @Override
     public OrderProcessingQueryResult generateReceipt(int itemId, String userName) {
+        if(itemId<=0 || userName == null){
+            return new OrderProcessingQueryResult(OrderProcessingQueryResultStatus.ERROR, "ItemId should be more than one and userName cannot be null");
+        }
         try (Connection connection = databaseConnection.connect()) {
             Map<String, String> userInfo = getUserInformation(connection, userName);
             Double currentPrice = getCurrentPrice(connection, itemId);
