@@ -7,6 +7,7 @@ public class Item {
     private String auctionType;
     private long price;
     private int shippingTime;
+    private boolean expeditedShipping;
     private double shippingCost;
     private double expeditedShippingCost;
     private double finalShippingCost;
@@ -38,6 +39,10 @@ public class Item {
 
     public int getShippingTime() {
         return shippingTime;
+    }
+
+    public boolean getExpeditedShipping(){
+        return expeditedShipping;
     }
 
     public double getShippingCost() {
@@ -96,6 +101,10 @@ public class Item {
         this.shippingTime = shippingTime;
     }
 
+    public void setExpeditedShipping(boolean expeditedShipping){
+        this.expeditedShipping = expeditedShipping;
+    }
+    
     public void setShippingCost(double shippingCost) {
         this.shippingCost = shippingCost;
     }

@@ -14,9 +14,9 @@ public class ShippingController {
     @Autowired
     private ShippingImpl shippingImpl;
 
-    @RequestMapping(value="/calculateShippingCost/{itemid}/{shippingType}", method=RequestMethod.PUT)
-    public ResponseEntity<Map<String,Object>> calculateShippingCost(@PathVariable("itemId") int itemId,@PathVariable("shippingType") String shippingType ) {
-        ShippingQueryResult shippingQueryResult = shippingImpl.calculateShippingCost(itemId, shippingType);
+    @RequestMapping(value="/calculateShippingCost/{itemid}", method=RequestMethod.PUT)
+    public ResponseEntity<Map<String,Object>> calculateShippingCost(@PathVariable("itemId") int itemId ) {
+        ShippingQueryResult shippingQueryResult = shippingImpl.calculateShippingCost(itemId);
         Map<String,Object> response = new HashMap<String,Object>();
         response.put("message",shippingQueryResult.getMessage());
         response.put("queryStatus", shippingQueryResult.getItemCatalogueQueryResultStatus());
@@ -27,6 +27,16 @@ public class ShippingController {
     @RequestMapping(value="/displayShippingDetails/{itemid}", method=RequestMethod.GET)
     public ResponseEntity<Map<String,Object>> displayShippingDetails(@PathVariable("itemId") int itemId) {
         ShippingQueryResult shippingQueryResult = shippingImpl.displayShippingDetails(itemId);
+        Map<String,Object> response = new HashMap<String,Object>();
+        response.put("message",shippingQueryResult.getMessage());
+        response.put("queryStatus", shippingQueryResult.getItemCatalogueQueryResultStatus());
+        response.put("data",shippingQueryResult.getData());
+        return HttpResponseStatus.setResponse(response);
+    }
+
+    @RequestMapping(value="/expeditedShipping/{itemId}", method=RequestMethod.GET)
+    public ResponseEntity<Map<String,Object>> expeditedhipping(@PathVariable("itemId") int itemId) {
+        ShippingQueryResult shippingQueryResult = shippingImpl.setExpeditedShipping(itemId);
         Map<String,Object> response = new HashMap<String,Object>();
         response.put("message",shippingQueryResult.getMessage());
         response.put("queryStatus", shippingQueryResult.getItemCatalogueQueryResultStatus());

@@ -16,16 +16,14 @@ public class OrderprocessingController {
     @Autowired
     private OrderProcessingImpl orderProcessingImpl;
 
-    @RequestMapping(value="/generateReceipt", method=RequestMethod.GET)
-    public ResponseEntity<Map<String,String>> generateReceipt(@RequestBody OrderRequest request) {
-        Map<String,String> response = new HashMap<String,String>();
-        try{
-         response = orderProcessingImpl.generateReceipt(request);
-         return ResponseEntity.ok(response);
-        }catch(Exception e){
-            response.put("message","Failed to generate reciept at this time");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-        }
+    @RequestMapping(value="/generateReceipt/{userName}/{itemId}", method=RequestMethod.GET)
+    public ResponseEntity<Map<String,Object>> generateReceipt(@PathVariable("itemId") int itemId,@PathVariable("userName") String userName) {
+        OrderProcessingQueryResult orderProcessingQueryResult = orderProcessingImpl.generateReceipt(itemId, userName);
+        Map<String,Object> response = new HashMap<String,Object>();
+        response.put("message",orderProcessingQueryResult.getMessage());
+        response.put("queryStatus", orderProcessingQueryResult.getOrderProcessingQueryResultStatus());
+        response.put("data", orderProcessingQueryResult.getData());
+        return HttpResponseStatus.setResponse(response);
         
     }
 
