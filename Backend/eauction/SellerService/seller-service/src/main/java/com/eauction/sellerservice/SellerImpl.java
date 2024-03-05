@@ -1,9 +1,7 @@
 package com.eauction.sellerservice;
 
 import org.springframework.stereotype.Service;
-
-import com.common.Item;
-
+import com.common.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 

@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.common.Item;
+import com.common.*;
 
 public class ItemCatalogueImpl implements ItemCatalogue{
 
