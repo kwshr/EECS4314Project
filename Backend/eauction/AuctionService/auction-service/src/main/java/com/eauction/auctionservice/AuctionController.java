@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -16,7 +16,7 @@ public class AuctionController {
     private AuctionImpl auctionImpl;
 
     @RequestMapping(value="/startAuction/{itemId}", method=RequestMethod.POST)
-    public ResponseEntity<Map<String,Object>> auctionStart(@RequestBody int itemId) {
+    public ResponseEntity<Map<String,Object>> auctionStart(@PathVariable("itemId") int itemId) {
          Map<String,Object>  response = new HashMap<>();
          try{
             auctionImpl.startAuction(itemId);
@@ -29,7 +29,7 @@ public class AuctionController {
     }
 
     @RequestMapping(value="/getRemainingTime/{itemId}", method=RequestMethod.GET)
-    public ResponseEntity<Map<String,Object>> getRemainingTime(@RequestBody int itemId) {
+    public ResponseEntity<Map<String,Object>> getRemainingTime(@PathVariable("itemId") int itemId) {
          Map<String,Object> response = new HashMap<String,Object>();
          AuctionQueryResult auctionQueryResult = auctionImpl.getRemainingTimeUpdate(itemId);
          response.put("message",auctionQueryResult.getMessage());
@@ -39,7 +39,7 @@ public class AuctionController {
     }
 
     @RequestMapping(value="/endAuction/{itemId}", method=RequestMethod.POST)
-    public ResponseEntity<Map<String,Object>> endAuction(@RequestBody int itemId) {
+    public ResponseEntity<Map<String,Object>> endAuction(@PathVariable("itemId") int itemId) {
          Map<String,Object>  response = new HashMap<>();
          try{
          auctionImpl.endAuction(itemId);
