@@ -45,7 +45,7 @@ public class AuthorizationController {
     public ResponseEntity<Map<String,Object>> passwordReset(@RequestBody Map<String,String> credentials) {
        String userName = credentials.get("userName");
        String newPassword = credentials.get("newPassword");
-        AuthorizationQueryResult authorizationResult = authorizationImpl.SignIn(userName,newPassword);
+        AuthorizationQueryResult authorizationResult = authorizationImpl.PasswordReset(userName,newPassword);
         Map<String,Object> response = new HashMap<String,Object>();
         response.put("message",authorizationResult.getMessage());
         response.put("queryStatus", authorizationResult.getAuthorizationStatus());
