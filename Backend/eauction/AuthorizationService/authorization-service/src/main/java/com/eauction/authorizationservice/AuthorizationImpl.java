@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.*;
 
 @Service
 public class AuthorizationImpl implements Authorization {
@@ -18,7 +19,7 @@ public class AuthorizationImpl implements Authorization {
     }
 
     @Override
-    public AuthorizationQueryResult SignUp(User user) {
+    public AuthorizationQueryResult signUp(User user) {
         String userName = user.getUserName();
         String password = user.getPassword();
         String firstName = user.getFirstName();
@@ -32,7 +33,7 @@ public class AuthorizationImpl implements Authorization {
         if((userName == null || password == null || firstName == null || lastName == null || streetName == null ||
         streetNumber <=0 || city == null || country == null || postalCode == null ||userName == "" || password == "" || 
         firstName == "" || lastName == "" || streetName == "" || city == "" || country == "" || postalCode == "" )){
-            return new AuthorizationQueryResult(AuthorizationQueryResultStatus.ERROR, "Signup values cannot be null or empty. Please, try again");
+            return new AuthorizationQueryResult(AuthorizationQueryResultStatus.INVALID_INPUT, "Signup values cannot be null or empty. Please, try again");
         }
         try {
             try (Connection connection = databaseConnection.connect()) {
@@ -59,9 +60,9 @@ public class AuthorizationImpl implements Authorization {
     }
 
     @Override
-    public AuthorizationQueryResult SignIn(String userName, String password) {
+    public AuthorizationQueryResult signIn(String userName, String password) {
         if (userName == null || password == null || userName == "" || password == "")
-            return new AuthorizationQueryResult(AuthorizationQueryResultStatus.ERROR, "Invalid parameters: userName and password must not be null");
+            return new AuthorizationQueryResult(AuthorizationQueryResultStatus.INVALID_INPUT, "Invalid parameters: userName and password must not be null");
         else {
             try (Connection connection = databaseConnection.connect()) {
                 String query = "SELECT userId FROM Users WHERE userName = ? AND password = ?";
@@ -84,26 +85,58 @@ public class AuthorizationImpl implements Authorization {
     }
 
     @Override
-    public AuthorizationQueryResult PasswordReset(String userName, String newPassword) {
-        if (userName == null || newPassword == null || userName == "" || newPassword == "")
-            return new AuthorizationQueryResult(AuthorizationQueryResultStatus.ERROR, "Invalid parameters: userName and password must not be null");
-        else {
-            try (Connection connection = databaseConnection.connect()) {
-                String query = "UPDATE Users SET password = ? WHERE userName = ?";
-                try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                    preparedStatement.setString(1, newPassword);
-                    preparedStatement.setString(2, userName);
+    public AuthorizationQueryResult passwordReset(String userName, String newPassword) {
+        if (userName == null || newPassword == null || userName == "" || newPassword == ""){
+            return new AuthorizationQueryResult(AuthorizationQueryResultStatus.INVALID_INPUT, "Invalid parameters: userName and password must not be null");
+        }
+        try (Connection connection = databaseConnection.connect()) {
+            String query = "UPDATE Users SET password = ? WHERE userName = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, newPassword);
+                preparedStatement.setString(2, userName);
+                int rowsAffected = preparedStatement.executeUpdate();
+                if (rowsAffected > 0) {
+                    return new AuthorizationQueryResult(AuthorizationQueryResultStatus.SUCCESS, "Password reset successful");
+                } else {
+                    return new AuthorizationQueryResult(AuthorizationQueryResultStatus.NOT_FOUND, "User not found with the specified username");
+                }
+            }
+        } catch (SQLException e) {
+            return new AuthorizationQueryResult(AuthorizationQueryResultStatus.ERROR, "Failed to reset password" + e.getMessage());
+        }
+    }
 
-                    int rowsAffected = preparedStatement.executeUpdate();
-                    if (rowsAffected > 0) {
-                        return new AuthorizationQueryResult(AuthorizationQueryResultStatus.SUCCESS, "Password reset successful");
+    @Override
+    public AuthorizationQueryResult getUserDetails(int userId){
+        if(userId<=0){
+            return new AuthorizationQueryResult(AuthorizationQueryResultStatus.INVALID_INPUT, "Invalid parameters: userName must not be null"); 
+        }
+        try (Connection connection = databaseConnection.connect()){
+            String sql = "SELECT FirstName, LastName, StreetName, StreetNumber, City, Country, PostalCode " +
+                         "FROM Users " +
+                         "WHERE UserID = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, userId);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    Map<String, String> userDetails = new HashMap<String,String>();
+                    if (resultSet.next()) {
+                        userDetails.put("FirstName", resultSet.getString("FirstName"));
+                        userDetails.put("LastName",resultSet.getString("LastName"));
+                        userDetails.put("StreetName", resultSet.getString("StreetName"));
+                        userDetails.put("StreetNumber",resultSet.getString("StreetNumber"));
+                        userDetails.put("City",resultSet.getString("City"));
+                        userDetails.put("Country",resultSet.getString("Country"));
+                        userDetails.put("PostalCode",resultSet.getString("PostalCode"));
+                        AuthorizationQueryResult result = new AuthorizationQueryResult(AuthorizationQueryResultStatus.SUCCESS, "User's details fetched successfully");
+                        result.setData(userDetails);
+                        return result;
                     } else {
-                        return new AuthorizationQueryResult(AuthorizationQueryResultStatus.NOT_FOUND, "User not found with the specified username");
+                        return new AuthorizationQueryResult(AuthorizationQueryResultStatus.NOT_FOUND, "Could not retrive the User details. Please double-check the UserId");
                     }
                 }
-            } catch (SQLException e) {
-                return new AuthorizationQueryResult(AuthorizationQueryResultStatus.ERROR, "Failed to reset password" + e.getMessage());
             }
+        } catch (SQLException e) {
+            return new AuthorizationQueryResult(AuthorizationQueryResultStatus.ERROR, "Failed to fetch Users details" + e.getMessage());
         }
     }
 }
