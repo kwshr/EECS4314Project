@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class ShippingImpl implements Shipping{
 
     private DatabaseConnection databaseConnection;

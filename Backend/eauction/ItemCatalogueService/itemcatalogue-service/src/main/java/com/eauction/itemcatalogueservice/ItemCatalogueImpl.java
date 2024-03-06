@@ -9,8 +9,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+
 import com.common.Item;
 
+@Service
 public class ItemCatalogueImpl implements ItemCatalogue{
 
     private final DatabaseConnection databaseConnection;

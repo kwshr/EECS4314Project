@@ -5,6 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class BiddingImpl implements Bidding {
 
     private final DatabaseConnection databaseConnection;
