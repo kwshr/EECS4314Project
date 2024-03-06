@@ -136,5 +136,26 @@ public class AuctionImpl implements Auction {
             }
         }
     }
+
+        public AuctionQueryResult getWinner(int itemId){
+            try (Connection connection = databaseConnection.connect()) {
+                String query = "SELECT WinnerId FROM Auctions WHERE ItemID = ?";
+                try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                    preparedStatement.setInt(1, itemId);
+                    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                        if (resultSet.next()) {
+                            int winnerId = resultSet.getInt("WinnerId");
+                            AuctionQueryResult result = new AuctionQueryResult(AuctionQueryResultStatus.SUCCESS, "Winner ID retrieved successfully");
+                            result.setData(winnerId);
+                            return result;
+                        } else {
+                            return new AuctionQueryResult(AuctionQueryResultStatus.ERROR, "No winner found for item with ID: " + itemId);
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                return new AuctionQueryResult(AuctionQueryResultStatus.ERROR, "Error retrieving winner ID for item with ID: " + itemId);
+            }
+        }
+    }
     
-}
