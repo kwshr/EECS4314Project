@@ -7,7 +7,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AuctionImpl implements Auction {
 
     private final DatabaseConnection databaseConnection;
