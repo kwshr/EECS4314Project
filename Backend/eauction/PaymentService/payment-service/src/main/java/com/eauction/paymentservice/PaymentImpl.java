@@ -21,9 +21,10 @@ public class PaymentImpl implements Payment{
         }
         try(Connection connection = databaseConnection.connect()){
             String query = "INSERT INTO Payments (AuctionID, PayerID, Amount) " +
-            "SELECT a.AuctionID, u.UserID, a.CurrentPrice " +
+            "SELECT a.AuctionID, u.UserID, (a.CurrentPrice + i.FinalShippingCost) " +
             "FROM Auctions a " +
             "JOIN Users u ON u.UserName = ? " +
+            "JOIN Items i ON i.ItemID = a.ItemID " +
             "WHERE a.ItemID = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setString(1, userName);
