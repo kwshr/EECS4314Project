@@ -36,7 +36,7 @@ public class SellerImpl implements Seller {
         price <= 0 || shippingTime <= 0 || shippingCost <= 0 || expeditedShippingCost <= 0 ||
         finalShippingCost <= 0 || fixedTimeLimit <= 0 || dutchReservedPrice <= 0 ||
         dutchDecrementAmount <= 0 || dutchDecrementTimeInterval <= 0 || sellerId <= 0){
-            return new SellerQueryResult(SellerServiceQueryStatus.ERROR, "Invalid values provided, Please try again");
+            return new SellerQueryResult(SellerServiceQueryStatus.INVALID_INPUT, "Invalid values provided, Please try again");
         }
 
         try (Connection connection = databaseConnection.connect()) {
@@ -75,7 +75,7 @@ public class SellerImpl implements Seller {
     @Override
     public SellerQueryResult updateDutchAuctionprice(int itemId, double newPrice) {
         if(itemId<=0 || newPrice <=0 ){
-            return new SellerQueryResult(SellerServiceQueryStatus.ERROR, "ItemId and newPrice cannot be less than 1. Please, try again");
+            return new SellerQueryResult(SellerServiceQueryStatus.INVALID_INPUT, "ItemId and newPrice cannot be less than 1. Please, try again");
         }
         try (Connection connection = databaseConnection.connect()) {
             String query = "UPDATE Auctions SET CurrentPrice = ? WHERE ItemID = ?";
