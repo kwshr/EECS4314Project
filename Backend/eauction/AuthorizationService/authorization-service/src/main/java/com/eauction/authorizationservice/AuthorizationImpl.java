@@ -29,8 +29,10 @@ public class AuthorizationImpl implements Authorization {
         String city = shippingAddress.getCity();
         String country = shippingAddress.getCountry();
         String postalCode = shippingAddress.getPostalCode();
-        if((userName == null || password == null || firstName == null || lastName == null || shippingAddress == null)){
-            return new AuthorizationQueryResult(AuthorizationQueryResultStatus.ERROR, "Signup values cannot be null. Please, try again");
+        if((userName == null || password == null || firstName == null || lastName == null || streetName == null ||
+        streetNumber <=0 || city == null || country == null || postalCode == null ||userName == "" || password == "" || 
+        firstName == "" || lastName == "" || streetName == "" || city == "" || country == "" || postalCode == "" )){
+            return new AuthorizationQueryResult(AuthorizationQueryResultStatus.ERROR, "Signup values cannot be null or empty. Please, try again");
         }
         try {
             try (Connection connection = databaseConnection.connect()) {
