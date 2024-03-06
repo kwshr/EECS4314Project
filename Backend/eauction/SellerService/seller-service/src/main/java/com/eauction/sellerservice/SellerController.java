@@ -7,13 +7,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.common.Item;
 
+@RestController
+@RequestMapping
 public class SellerController {
 
     @Autowired
     private SellerImpl sellerImpl;
+
+    public SellerController(SellerImpl sellerImpl){
+        this.sellerImpl = sellerImpl;
+    }
     
     @RequestMapping(value="/addItem", method=RequestMethod.POST)
     public ResponseEntity<Map<String,Object>> addSellItems(@RequestBody Item item) {
