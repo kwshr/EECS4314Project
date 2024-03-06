@@ -15,7 +15,7 @@ public class AuctionController {
     @Autowired
     private AuctionImpl auctionImpl;
 
-    @RequestMapping(value="/startAuction/{itemId}", method=RequestMethod.POST)
+    @RequestMapping(value="/startAuction/{itemId}", method=RequestMethod.PUT)
     public ResponseEntity<Map<String,Object>> auctionStart(@PathVariable("itemId") int itemId) {
          Map<String,Object>  response = new HashMap<>();
          try{
@@ -38,13 +38,20 @@ public class AuctionController {
          return HttpResponseStatus.setResponse(response);
     }
 
-    @RequestMapping(value="/endAuction/{itemId}", method=RequestMethod.POST)
+    @RequestMapping(value="/endAuction/{itemId}", method=RequestMethod.PUT)
     public ResponseEntity<Map<String,Object>> endAuction(@PathVariable("itemId") int itemId) {
          Map<String,Object>  response = new HashMap<>();
          try{
-         auctionImpl.endAuction(itemId);
-         response.put("message","Auction ended succesfully");
-            return ResponseEntity.ok(response);
+            AuctionQueryResult endResult = auctionImpl.endAuction(itemId);
+            if (endResult.getAuctionStatus() == AuctionQueryResultStatus.SUCCESS) {
+               AuctionQueryResult winner = auctionImpl.getWinner(itemId);
+               response.put("message", "Auction ended successfully");
+               response.put("data",winner.getData());
+               return ResponseEntity.ok(response);
+            } else {
+                response.put("message", "Failed to end auction: " + endResult.getMessage());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            }
          } catch (AuctionException e){
             response.put("message","Failed to end auction"+e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
