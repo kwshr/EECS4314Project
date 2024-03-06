@@ -60,7 +60,7 @@ public class AuthorizationImpl implements Authorization {
 
     @Override
     public AuthorizationQueryResult SignIn(String userName, String password) {
-        if (userName == null || password == null)
+        if (userName == null || password == null || userName == "" || password == "")
             return new AuthorizationQueryResult(AuthorizationQueryResultStatus.ERROR, "Invalid parameters: userName and password must not be null");
         else {
             try (Connection connection = databaseConnection.connect()) {
@@ -85,7 +85,7 @@ public class AuthorizationImpl implements Authorization {
 
     @Override
     public AuthorizationQueryResult PasswordReset(String userName, String newPassword) {
-        if (userName == null || newPassword == null)
+        if (userName == null || newPassword == null || userName == "" || newPassword == "")
             return new AuthorizationQueryResult(AuthorizationQueryResultStatus.ERROR, "Invalid parameters: userName and password must not be null");
         else {
             try (Connection connection = databaseConnection.connect()) {
