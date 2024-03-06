@@ -18,13 +18,13 @@ Before setting up the backend for your application, ensure that the following pr
 
 ## Microservices Configuration
 ### 1. Edit Application Properties
-   - Navigate to each microservice's subfolder.
+   - Navigate to each microservice's subfolder within `Backend\eauction`.
    - Open the `src/main/resources/application.properties` file.
    - Set the appropriate `username` and `password` for the MySQL database connection.
 
 ## Build Common Library
 ### 1. Build Common Library
-   - Navigate to the common library folder.
+   - Navigate to the `Backend\eauction\Common-Library` folder.
    - Open a terminal and run the following command:
      ```
      mvn clean install
@@ -34,7 +34,7 @@ Before setting up the backend for your application, ensure that the following pr
 
 ## Microservices Setup
 ### 1. Build and Run Microservices
-   - Navigate to each individual microservice's subfolder.
+   - Navigate to each individual microservice's subfolder within `Backend\eauction`.
    - Open a terminal and run the following commands:
      ```
      mvn clean install
