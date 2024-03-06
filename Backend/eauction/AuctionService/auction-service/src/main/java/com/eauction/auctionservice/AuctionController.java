@@ -25,14 +25,10 @@ public class AuctionController {
     @RequestMapping(value="/startAuction/{itemId}", method=RequestMethod.PUT)
     public ResponseEntity<Map<String,Object>> auctionStart(@PathVariable("itemId") int itemId) {
          Map<String,Object>  response = new HashMap<>();
-         try{
-            auctionImpl.startAuction(itemId);
-            response.put("message","Auction started succesfully");
-            return ResponseEntity.ok(response);
-         } catch (AuctionException e){
-            response.put("message","Failed to start auction"+e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-         }
+         AuctionQueryResult auctionQueryResult = auctionImpl.startAuction(itemId);
+         response.put("message", auctionQueryResult.getMessage());
+         response.put("queryStatus", auctionQueryResult.getAuctionStatus());
+         return HttpResponseStatus.setResponse(response);
     }
 
     @RequestMapping(value="/getRemainingTime/{itemId}", method=RequestMethod.GET)
