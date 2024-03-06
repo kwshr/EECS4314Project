@@ -13,13 +13,6 @@ CREATE TABLE Users (
     PostalCode   VARCHAR(255),
     CreatedAt    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-CREATE TABLE Sellers (
-    SellerID       INT AUTO_INCREMENT PRIMARY KEY,
-    SellerUsername VARCHAR(255) UNIQUE NOT NULL,
-    Name           VARCHAR(255) NOT NULL,
-    ItemID         INT,
-    FOREIGN KEY (ItemID) REFERENCES Items (ItemID)
-);
 CREATE TABLE Items (
     ItemID                     INT AUTO_INCREMENT PRIMARY KEY,
     ItemName                   VARCHAR(255) NOT NULL,
@@ -36,9 +29,19 @@ CREATE TABLE Items (
     DutchDecrementAmount       BIGINT,
     DutchDecrementTimeInterval INT
 );
+
+CREATE TABLE Sellers (
+    SellerID       INT AUTO_INCREMENT PRIMARY KEY,
+    SellerUsername VARCHAR(255) UNIQUE NOT NULL,
+    Name           VARCHAR(255) NOT NULL,
+    ItemID         INT,
+    FOREIGN KEY (ItemID) REFERENCES Items (ItemID)
+);
+
 ALTER TABLE Items
 ADD COLUMN SellerID INT,
 ADD CONSTRAINT FK_SellerID FOREIGN KEY (SellerID) REFERENCES Sellers(SellerID);
+
 CREATE TABLE Auctions (
     AuctionID     INTEGER PRIMARY KEY AUTO_INCREMENT,
     ItemID        INTEGER,
@@ -51,6 +54,7 @@ CREATE TABLE Auctions (
     FOREIGN KEY (ItemID) REFERENCES Items(ItemID),
     FOREIGN KEY (WinningBidder) REFERENCES Users(UserID)
 );
+
 CREATE TABLE Payments (
     PaymentID       INT AUTO_INCREMENT PRIMARY KEY,
     AuctionID       INT,
@@ -60,6 +64,7 @@ CREATE TABLE Payments (
     FOREIGN KEY (AuctionID) REFERENCES Auctions(AuctionID),
     FOREIGN KEY (PayerID) REFERENCES Users(UserID)
 );
+
 CREATE TABLE Shipping (
     ShippingID            INT AUTO_INCREMENT PRIMARY KEY,
     PaymentID             INT,
