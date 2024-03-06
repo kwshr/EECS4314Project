@@ -8,11 +8,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
+@RequestMapping
 public class ShippingController {
 
     @Autowired
     private ShippingImpl shippingImpl;
+
+    public ShippingController(ShippingImpl shippingImpl){
+        this.shippingImpl = shippingImpl;
+    }
 
     @RequestMapping(value="/calculateShippingCost/{itemid}", method=RequestMethod.PUT)
     public ResponseEntity<Map<String,Object>> calculateShippingCost(@PathVariable("itemId") int itemId ) {

@@ -8,11 +8,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
+@RequestMapping
 public class OrderprocessingController {
 
     @Autowired
     private OrderProcessingImpl orderProcessingImpl;
+
+    public OrderprocessingController(OrderProcessingImpl orderProcessingImpl){
+        this.orderProcessingImpl = orderProcessingImpl;
+    }
 
     @RequestMapping(value="/generateReceipt/{userName}/{itemId}", method=RequestMethod.GET)
     public ResponseEntity<Map<String,Object>> generateReceipt(@PathVariable("itemId") int itemId,@PathVariable("userName") String userName) {

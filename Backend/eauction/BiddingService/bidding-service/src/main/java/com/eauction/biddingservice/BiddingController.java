@@ -8,11 +8,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
+
+@RestController
+@RequestMapping
 public class BiddingController {
     
     @Autowired
     private BiddingImpl biddingImpl;
+
+    public BiddingController(BiddingImpl biddingImpl){
+        this.biddingImpl = biddingImpl;
+    }
 
     @RequestMapping(value="/placeBid/{userName}/{itemId}/{newPrice}", method=RequestMethod.POST)
     public ResponseEntity<Map<String,Object>> generateReceipt(@PathVariable("userName") String userName,@PathVariable("itemId") int itemId, @PathVariable("newPrice") Double newPrice ) {
