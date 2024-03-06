@@ -18,7 +18,7 @@ public class ShippingImpl implements Shipping{
     @Override
     public ShippingQueryResult calculateShippingCost(int itemId) {
         if(itemId<=0){
-            return new ShippingQueryResult(ShippingQueryResultStatus.ERROR, "ItemId cannot be less than 1");
+            return new ShippingQueryResult(ShippingQueryResultStatus.INVALID_INPUT, "ItemId cannot be less than 1");
         }
         try (Connection connection = databaseConnection.connect()) {
             if (!itemExists(connection, itemId)) {
@@ -74,7 +74,7 @@ public class ShippingImpl implements Shipping{
     @Override
     public ShippingQueryResult setExpeditedShipping(int itemId){
         if(itemId<=0){
-            return new ShippingQueryResult(ShippingQueryResultStatus.ERROR, "ItemId cannot be less than 1");
+            return new ShippingQueryResult(ShippingQueryResultStatus.INVALID_INPUT, "ItemId cannot be less than 1");
         }
         try (Connection connection = databaseConnection.connect()) {
             if (!itemExists(connection, itemId)) {
@@ -107,8 +107,31 @@ public class ShippingImpl implements Shipping{
 
     @Override
     public ShippingQueryResult displayShippingDetails(int itemId) {
-        //get number of days
-        throw new UnsupportedOperationException("Unimplemented method 'displayShippingDetails'");
+        if(itemId<=0){
+            return new ShippingQueryResult(ShippingQueryResultStatus.INVALID_INPUT, "ItemId cannot be less than 1");
+        }
+        try (Connection connection = databaseConnection.connect()) {
+            if (!itemExists(connection, itemId)) {
+                return new ShippingQueryResult(ShippingQueryResultStatus.ERROR, "Item not found for ID: " + itemId);
+            }
+            String updateQuery = "SELECT ShippingTime FROM Items WHERE ItemID =?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
+                preparedStatement.setInt(1, itemId);
+                
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        int shippingTime = resultSet.getInt("ShippingTime");
+                        ShippingQueryResult result = new ShippingQueryResult(ShippingQueryResultStatus.SUCCESS, "Retrieved shipping time successfully for item with ID: " + itemId);
+                        result.setData(shippingTime);
+                        return result;
+                    } else {
+                        return new ShippingQueryResult(ShippingQueryResultStatus.ERROR, "Failed to retrieve the shipping time for item with ID: " + itemId);
+                    }
+                }
+            }
+         } catch (SQLException e) {
+                return new ShippingQueryResult(ShippingQueryResultStatus.ERROR, "Error retrieving shipping time");
+            }
     }
     
 }
