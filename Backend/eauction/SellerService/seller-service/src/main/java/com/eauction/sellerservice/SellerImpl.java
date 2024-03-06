@@ -32,10 +32,9 @@ public class SellerImpl implements Seller {
         int dutchDecrementTimeInterval = item.getDutchDecrementTimeInterval();
         int sellerId = item.getSellerId();
 
-        if(itemName == null || itemDescription == null || auctionType == null ||
+        if(itemName == null || itemDescription == null || auctionType == null || itemName == "" || itemDescription == "" || auctionType == "" ||
         price <= 0 || shippingTime <= 0 || shippingCost <= 0 || expeditedShippingCost <= 0 ||
-        finalShippingCost <= 0 || fixedTimeLimit <= 0 || dutchReservedPrice <= 0 ||
-        dutchDecrementAmount <= 0 || dutchDecrementTimeInterval <= 0 || sellerId <= 0){
+        finalShippingCost <= 0 || fixedTimeLimit <= 0 || sellerId <= 0){
             return new SellerQueryResult(SellerServiceQueryStatus.INVALID_INPUT, "Invalid values provided, Please try again");
         }
 
