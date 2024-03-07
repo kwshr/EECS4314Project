@@ -16,43 +16,43 @@ CREATE TABLE Users (
 CREATE TABLE Items (
     ItemID                     INT AUTO_INCREMENT PRIMARY KEY,
     ItemName                   VARCHAR(255) NOT NULL,
-    ItemDescription            TEXT,
+    ItemDescription            TEXT NOT NULL,
     AuctionType                VARCHAR(10) CHECK (AuctionType IN ('Forward', 'Dutch')) NOT NULL,
-    Price                      BIGINT NOT NULL,
+    Price                      DOUBLE NOT NULL,
     ShippingTime               INT NOT NULL,
     ExpeditedShipping          BOOLEAN DEFAULT false,
     ShippingCost               DOUBLE NOT NULL,
     ExpeditedShippingCost      DOUBLE NOT NULL,
     FinalShippingCost          DOUBLE NOT NULL,
-    FixedTimeLimit             INT,
-    DutchReservedPrice         BIGINT,
-    DutchDecrementAmount       BIGINT,
-    DutchDecrementTimeInterval INT
+    FixedTimeLimit             Time,
+    DutchReservedPrice         DOUBLE,
+    DutchDecrementAmount       DOUBLE,
+    DutchDecrementTimeInterval Time
 );
 
 CREATE TABLE Sellers (
     SellerID       INT AUTO_INCREMENT PRIMARY KEY,
     SellerUsername VARCHAR(255) UNIQUE NOT NULL,
     Password     VARCHAR(255) NOT NULL,
-    FirstName    VARCHAR(255),
-    LastName     VARCHAR(255),
+    FirstName    VARCHAR(255) NOT NULL,
+    LastName     VARCHAR(255) NOT NULL,
     ItemID         INT,
     FOREIGN KEY (ItemID) REFERENCES Items (ItemID)
 );
 
 ALTER TABLE Items
-ADD COLUMN SellerID INT,
+ADD COLUMN SellerID INT NOT NULL,
 ADD CONSTRAINT FK_SellerID FOREIGN KEY (SellerID) REFERENCES Sellers(SellerID);
 
 CREATE TABLE Auctions (
-    AuctionID     INTEGER PRIMARY KEY AUTO_INCREMENT,
-    ItemID        INTEGER,
+    AuctionID     INT PRIMARY KEY AUTO_INCREMENT,
+    ItemID        INT NOT NULL,
     StartDateTime TIMESTAMP NOT NULL,
     EndDateTime   TIMESTAMP NOT NULL,
-    CurrentPrice  DECIMAL(10, 2),
+    CurrentPrice  DECIMAL(10, 2) NOT NULL,
     AuctionStatus        VARCHAR(10) CHECK (AuctionStatus IN ('NotStarted', 'Active', 'Ended', 'Paid')) DEFAULT 'NotStarted' NOT NULL,
     AuctionType   VARCHAR(10) CHECK (AuctionType IN ('Forward', 'Dutch')) DEFAULT 'Forward' NOT NULL,
-    WinningBidder       INTEGER,
+    WinningBidder  INT,
     FOREIGN KEY (ItemID) REFERENCES Items(ItemID),
     FOREIGN KEY (WinningBidder) REFERENCES Users(UserID)
 );
