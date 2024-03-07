@@ -24,10 +24,9 @@ CREATE TABLE Items (
     ShippingCost               DOUBLE NOT NULL,
     ExpeditedShippingCost      DOUBLE NOT NULL,
     FinalShippingCost          DOUBLE NOT NULL,
-    FixedTimeLimit             Time,
     DutchReservedPrice         DOUBLE,
-    DutchDecrementAmount       DOUBLE,
-    DutchDecrementTimeInterval Time
+    -- timer suposed to start afer the dutchReservedPrice is reached and then end auction after the time ends
+    DutchEndTimer              Time
 );
 
 CREATE TABLE Sellers (
