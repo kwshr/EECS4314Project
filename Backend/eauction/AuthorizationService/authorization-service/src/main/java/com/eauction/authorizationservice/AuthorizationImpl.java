@@ -19,7 +19,46 @@ public class AuthorizationImpl implements Authorization {
     }
 
     @Override
-    public AuthorizationQueryResult signUp(User user) {
+    public AuthorizationQueryResult signUp(User user, String accountType) {
+        if(accountType.equalsIgnoreCase("user")){
+            return signUpUser(user);
+        }
+        else if(accountType.equalsIgnoreCase("seller")){
+            return signUpSeller(user);
+        }
+        else{
+            return new AuthorizationQueryResult(AuthorizationQueryResultStatus.INVALID_INPUT, "Invalid account type chosen");
+        }
+    }
+
+    private AuthorizationQueryResult signUpSeller(User user){
+        String userName = user.getUserName();
+        String password = user.getPassword();
+        String firstName = user.getFirstName();
+        String lastName = user.getLastName();
+        if((userName == null || password == null || firstName == null || lastName == null || userName == "" || password == "" || 
+        firstName == "" || lastName == "" )){
+            return new AuthorizationQueryResult(AuthorizationQueryResultStatus.INVALID_INPUT, "Signup values cannot be null or empty. Please, try again");
+        }
+        try {
+            try (Connection connection = databaseConnection.connect()) {
+                String query = "INSERT INTO Sellers (sellerUsername, password, firstName, lastName) " +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                    preparedStatement.setString(1, userName);
+                    preparedStatement.setString(2, password);
+                    preparedStatement.setString(3, firstName);
+                    preparedStatement.setString(4, lastName);
+                    preparedStatement.executeUpdate();
+                }
+            }
+            return new AuthorizationQueryResult(AuthorizationQueryResultStatus.SUCCESS, "Seller signed up successfully");
+        } catch (Exception e) {
+            return new AuthorizationQueryResult(AuthorizationQueryResultStatus.ERROR, "Failed to sign up seller: " + e.getMessage());
+        }
+    }
+
+    private AuthorizationQueryResult signUpUser(User user){
         String userName = user.getUserName();
         String password = user.getPassword();
         String firstName = user.getFirstName();

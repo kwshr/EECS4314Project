@@ -22,7 +22,7 @@ public class ItemCatalogueController {
     }
 
     @RequestMapping(value="/search/{keyword}", method=RequestMethod.GET)
-    public ResponseEntity<Map<String,Object>> signUpUser(@PathVariable("userName") String keyword) {
+    public ResponseEntity<Map<String,Object>> signUpUser(@PathVariable("keyword") String keyword) {
         ItemCatalogueQueryResult itemCatalogueQueryResult = itemCatalogueImpl.Search(keyword);
         Map<String,Object> response = new HashMap<String,Object>();
         response.put("message",itemCatalogueQueryResult.getMessage());
