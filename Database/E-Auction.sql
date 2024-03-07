@@ -33,7 +33,9 @@ CREATE TABLE Items (
 CREATE TABLE Sellers (
     SellerID       INT AUTO_INCREMENT PRIMARY KEY,
     SellerUsername VARCHAR(255) UNIQUE NOT NULL,
-    Name           VARCHAR(255) NOT NULL,
+    Password     VARCHAR(255) NOT NULL,
+    FirstName    VARCHAR(255),
+    LastName     VARCHAR(255),
     ItemID         INT,
     FOREIGN KEY (ItemID) REFERENCES Items (ItemID)
 );

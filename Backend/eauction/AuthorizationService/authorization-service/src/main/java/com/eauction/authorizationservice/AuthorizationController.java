@@ -22,9 +22,9 @@ public class AuthorizationController {
         this.authorizationImpl = authorizationImpl;
     }
 
-    @RequestMapping(value="/signUp", method=RequestMethod.POST)
-    public ResponseEntity<Map<String,Object>> signUpUser(@RequestBody User user) {
-        AuthorizationQueryResult authorizationResult = authorizationImpl.signUp(user);
+    @RequestMapping(value="/signUp/{accountType}", method=RequestMethod.POST)
+    public ResponseEntity<Map<String,Object>> signUpUser(@RequestBody User user, @PathVariable("accountType") String accountType) {
+        AuthorizationQueryResult authorizationResult = authorizationImpl.signUp(user, accountType);
         Map<String,Object> response = new HashMap<String,Object>();
         response.put("message",authorizationResult.getMessage());
         response.put("queryStatus", authorizationResult.getAuthorizationStatus());
