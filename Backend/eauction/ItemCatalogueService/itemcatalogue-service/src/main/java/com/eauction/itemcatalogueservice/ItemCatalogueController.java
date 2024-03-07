@@ -21,15 +21,24 @@ public class ItemCatalogueController {
         this.itemCatalogueImpl = itemCatalogueImpl;
     }
 
+    // @RequestMapping(value="/search/{keyword}", method=RequestMethod.GET)
+    // public ResponseEntity<Map<String,Object>> signUpUser(@PathVariable("userName") String keyword) {
+    //     ItemCatalogueQueryResult itemCatalogueQueryResult = itemCatalogueImpl.Search(keyword);
+    //     Map<String,Object> response = new HashMap<String,Object>();
+    //     response.put("message",itemCatalogueQueryResult.getMessage());
+    //     response.put("queryStatus", itemCatalogueQueryResult.getItemCatalogueQueryResultStatus());
+    //     response.put("data",itemCatalogueQueryResult.getData());
+    //     return HttpResponseStatus.setResponse(response);
+    // }
     @RequestMapping(value="/search/{keyword}", method=RequestMethod.GET)
-    public ResponseEntity<Map<String,Object>> signUpUser(@PathVariable("userName") String keyword) {
-        ItemCatalogueQueryResult itemCatalogueQueryResult = itemCatalogueImpl.Search(keyword);
-        Map<String,Object> response = new HashMap<String,Object>();
-        response.put("message",itemCatalogueQueryResult.getMessage());
-        response.put("queryStatus", itemCatalogueQueryResult.getItemCatalogueQueryResultStatus());
-        response.put("data",itemCatalogueQueryResult.getData());
-        return HttpResponseStatus.setResponse(response);
-    }
+public ResponseEntity<Map<String,Object>> signUpUser(@PathVariable("keyword") String keyword) {
+    ItemCatalogueQueryResult itemCatalogueQueryResult = itemCatalogueImpl.Search(keyword);
+    Map<String,Object> response = new HashMap<String,Object>();
+    response.put("message", itemCatalogueQueryResult.getMessage());
+    response.put("queryStatus", itemCatalogueQueryResult.getItemCatalogueQueryResultStatus());
+    response.put("data", itemCatalogueQueryResult.getData());
+    return HttpResponseStatus.setResponse(response);
+}
 
     @RequestMapping(value="/getAuctionedItems", method=RequestMethod.GET)
     public ResponseEntity<Map<String,Object>> getAuctionedItems() {
@@ -41,13 +50,23 @@ public class ItemCatalogueController {
         return HttpResponseStatus.setResponse(response);
     }
 
+    // @RequestMapping(value="/getItem/{itemId}", method=RequestMethod.GET)
+    // public ResponseEntity<Map<String,Object>> passwordReset(@PathVariable("userName") int itemId) {
+    //     ItemCatalogueQueryResult itemCatalogueQueryResult = itemCatalogueImpl.getItem(itemId);
+    //     Map<String,Object> response = new HashMap<String,Object>();
+    //     response.put("message",itemCatalogueQueryResult.getMessage());
+    //     response.put("queryStatus", itemCatalogueQueryResult.getItemCatalogueQueryResultStatus());
+    //     response.put("data",itemCatalogueQueryResult.getData());
+    //     return HttpResponseStatus.setResponse(response);
+    // }
     @RequestMapping(value="/getItem/{itemId}", method=RequestMethod.GET)
-    public ResponseEntity<Map<String,Object>> passwordReset(@PathVariable("userName") int itemId) {
-        ItemCatalogueQueryResult itemCatalogueQueryResult = itemCatalogueImpl.getItem(itemId);
-        Map<String,Object> response = new HashMap<String,Object>();
-        response.put("message",itemCatalogueQueryResult.getMessage());
-        response.put("queryStatus", itemCatalogueQueryResult.getItemCatalogueQueryResultStatus());
-        response.put("data",itemCatalogueQueryResult.getData());
-        return HttpResponseStatus.setResponse(response);
-    }
+public ResponseEntity<Map<String,Object>> getItem(@PathVariable("itemId") int itemId) {
+    ItemCatalogueQueryResult itemCatalogueQueryResult = itemCatalogueImpl.getItem(itemId);
+    Map<String,Object> response = new HashMap<String,Object>();
+    response.put("message", itemCatalogueQueryResult.getMessage());
+    response.put("queryStatus", itemCatalogueQueryResult.getItemCatalogueQueryResultStatus());
+    response.put("data", itemCatalogueQueryResult.getData());
+    return HttpResponseStatus.setResponse(response);
+}
+
 }
