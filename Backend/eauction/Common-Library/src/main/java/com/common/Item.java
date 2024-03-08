@@ -1,4 +1,5 @@
 package com.common;
+import java.sql.Time;
 
 public class Item {
     private int itemId;
@@ -11,10 +12,8 @@ public class Item {
     private double shippingCost;
     private double expeditedShippingCost;
     private double finalShippingCost;
-    private int fixedTimeLimit;
     private long dutchReservedPrice;
-    private long dutchDecrementAmount;
-    private int dutchDecrementTimeInterval;
+    private Time dutchEndTimer;
     private int sellerId;
 
     public String getItemName() {
@@ -57,20 +56,12 @@ public class Item {
         return finalShippingCost;
     }
 
-    public int getFixedTimeLimit() {
-        return fixedTimeLimit;
-    }
-
     public long getDutchReservedPrice() {
         return dutchReservedPrice;
     }
 
-    public long getDutchDecrementAmount() {
-        return dutchDecrementAmount;
-    }
-
-    public int getDutchDecrementTimeInterval() {
-        return dutchDecrementTimeInterval;
+    public Time getDutchEndTimer(){
+        return dutchEndTimer;
     }
 
     public int getSellerId(){
@@ -117,20 +108,12 @@ public class Item {
         this.finalShippingCost = finalShippingCost;
     }
 
-    public void setFixedTimeLimit(int fixedTimeLimit) {
-        this.fixedTimeLimit = fixedTimeLimit;
-    }
-
     public void setDutchReservedPrice(long dutchReservedPrice) {
         this.dutchReservedPrice = dutchReservedPrice;
     }
 
-    public void setDutchDecrementAmount(long dutchDecrementAmount) {
-        this.dutchDecrementAmount = dutchDecrementAmount;
-    }
-
-    public void setDutchDecrementTimeInterval(int dutchDecrementTimeInterval) {
-        this.dutchDecrementTimeInterval = dutchDecrementTimeInterval;
+    public void setDUtchEndTimer(Time dutchEndTimer){
+        this.dutchEndTimer = dutchEndTimer;
     }
 
     public void setSellerId(int sellerId){
