@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +27,15 @@ public class AuctionController {
     public ResponseEntity<Map<String,Object>> auctionStart(@PathVariable("itemId") int itemId) {
          Map<String,Object>  response = new HashMap<>();
          AuctionQueryResult auctionQueryResult = auctionImpl.startAuction(itemId);
+         response.put("message", auctionQueryResult.getMessage());
+         response.put("queryStatus", auctionQueryResult.getAuctionStatus());
+         return HttpResponseStatus.setResponse(response);
+    }
+
+    @RequestMapping(value="/createAuction", method=RequestMethod.POST)
+    public ResponseEntity<Map<String,Object>> createAuction(@RequestBody Map<String,String> auction) {
+         Map<String,Object>  response = new HashMap<>();
+         AuctionQueryResult auctionQueryResult = auctionImpl.createAuction(auction);
          response.put("message", auctionQueryResult.getMessage());
          response.put("queryStatus", auctionQueryResult.getAuctionStatus());
          return HttpResponseStatus.setResponse(response);

@@ -48,7 +48,7 @@ CREATE TABLE Auctions (
     ItemID        INT NOT NULL,
     StartDateTime TIMESTAMP NOT NULL,
     EndDateTime   TIMESTAMP NOT NULL,
-    CurrentPrice  DECIMAL(10, 2) NOT NULL,
+    CurrentPrice  DOUBLE NOT NULL,
     AuctionStatus        VARCHAR(10) CHECK (AuctionStatus IN ('NotStarted', 'Active', 'Ended', 'Paid')) DEFAULT 'NotStarted' NOT NULL,
     AuctionType   VARCHAR(10) CHECK (AuctionType IN ('Forward', 'Dutch')) DEFAULT 'Forward' NOT NULL,
     WinningBidder  INT,
@@ -60,7 +60,7 @@ CREATE TABLE Payments (
     PaymentID       INT AUTO_INCREMENT PRIMARY KEY,
     AuctionID       INT,
     PayerID         INT,
-    Amount          DECIMAL(10, 2) NOT NULL,
+    Amount          DOUBLE NOT NULL,
     PaymentDateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (AuctionID) REFERENCES Auctions(AuctionID),
     FOREIGN KEY (PayerID) REFERENCES Users(UserID)

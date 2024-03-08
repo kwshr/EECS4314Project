@@ -6,6 +6,8 @@ import com.common.Item;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 @Service
 public class SellerImpl implements Seller {
@@ -44,7 +46,7 @@ public class SellerImpl implements Seller {
                     "ExpeditedShippingCost, FinalShippingCost, FixedTimeLimit, DutchReservedPrice, " +
                     "DutchDecrementAmount, DutchDecrementTimeInterval, SellerID) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS)) {
                 preparedStatement.setString(1, itemName);
                 preparedStatement.setString(2, itemDescription);
                 preparedStatement.setString(3, auctionType);
@@ -63,7 +65,11 @@ public class SellerImpl implements Seller {
                 if (rowsAffected == 0) {
                     return new SellerQueryResult(SellerServiceQueryStatus.ERROR, "Failed to add item: " + itemName);
                 } else {
-                    return new SellerQueryResult(SellerServiceQueryStatus.SUCCESS, "Item added successfully: " + itemName);
+                    ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+                    int itemId = generatedKeys.getInt(1);
+                    SellerQueryResult sellerQueryResult = new SellerQueryResult(SellerServiceQueryStatus.SUCCESS, "Item added successfully: " + itemName);
+                    sellerQueryResult.setData(itemId); 
+                    return sellerQueryResult;
                 }
             }
         } catch (Exception e) {
