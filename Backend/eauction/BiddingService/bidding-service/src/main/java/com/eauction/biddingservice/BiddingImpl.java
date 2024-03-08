@@ -19,7 +19,7 @@ public class BiddingImpl implements Bidding {
     @Override
     public BiddingQueryResult placeBid(int itemId, double newPrice, String userName) {
         if(itemId <=0 || newPrice<=0 || userName==null){
-            return new BiddingQueryResult(BiddingQueryResultStatus.ERROR, "Please enter the correct values");
+            return new BiddingQueryResult(BiddingQueryResultStatus.INVALID_INPUT, "Please enter the correct values");
         }
         else{
             try (Connection connection = databaseConnection.connect()) {

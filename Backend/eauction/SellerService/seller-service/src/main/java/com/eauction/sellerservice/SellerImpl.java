@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Time;
 
 @Service
 public class SellerImpl implements Seller {
@@ -28,24 +29,22 @@ public class SellerImpl implements Seller {
         double shippingCost = item.getShippingCost();
         double expeditedShippingCost = item.getExpeditedShippingCost();
         double finalShippingCost = item.getFinalShippingCost();
-        int fixedTimeLimit = item.getFixedTimeLimit();
         long dutchReservedPrice = item.getDutchReservedPrice();
-        long dutchDecrementAmount = item.getDutchDecrementAmount();
-        int dutchDecrementTimeInterval = item.getDutchDecrementTimeInterval();
+        Time dutchEndTimer = item.getDutchEndTimer();
         int sellerId = item.getSellerId();
 
         if(itemName == null || itemDescription == null || auctionType == null || itemName == "" || itemDescription == "" || auctionType == "" ||
         price <= 0 || shippingTime <= 0 || shippingCost <= 0 || expeditedShippingCost <= 0 ||
-        finalShippingCost <= 0 || fixedTimeLimit <= 0 || sellerId <= 0){
+        finalShippingCost <= 0 || dutchEndTimer.getTime() <=0 || dutchEndTimer.getTime() >=30 * 60 * 1000 || sellerId <= 0){
             return new SellerQueryResult(SellerServiceQueryStatus.INVALID_INPUT, "Invalid values provided, Please try again");
         }
 
         try (Connection connection = databaseConnection.connect()) {
             String query = "INSERT INTO Items " +
                     "(ItemName, ItemDescription, AuctionType, Price, ShippingTime, ShippingCost, " +
-                    "ExpeditedShippingCost, FinalShippingCost, FixedTimeLimit, DutchReservedPrice, " +
-                    "DutchDecrementAmount, DutchDecrementTimeInterval, SellerID) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    "ExpeditedShippingCost, FinalShippingCost, DutchReservedPrice, " +
+                    "DutchEndTimer, SellerID) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS)) {
                 preparedStatement.setString(1, itemName);
                 preparedStatement.setString(2, itemDescription);
@@ -55,11 +54,9 @@ public class SellerImpl implements Seller {
                 preparedStatement.setDouble(6, shippingCost);
                 preparedStatement.setDouble(7, expeditedShippingCost);
                 preparedStatement.setDouble(8, finalShippingCost);
-                preparedStatement.setInt(9, fixedTimeLimit);
-                preparedStatement.setLong(10, dutchReservedPrice);
-                preparedStatement.setLong(11, dutchDecrementAmount);
-                preparedStatement.setInt(12, dutchDecrementTimeInterval);
-                preparedStatement.setInt(13, sellerId);
+                preparedStatement.setLong(9, dutchReservedPrice);
+                preparedStatement.setTime(10, dutchEndTimer);
+                preparedStatement.setInt(11, sellerId);
 
                 int rowsAffected = preparedStatement.executeUpdate();
                 if (rowsAffected == 0) {
@@ -83,7 +80,7 @@ public class SellerImpl implements Seller {
             return new SellerQueryResult(SellerServiceQueryStatus.INVALID_INPUT, "ItemId and newPrice cannot be less than 1. Please, try again");
         }
         try (Connection connection = databaseConnection.connect()) {
-            String query = "UPDATE Auctions SET CurrentPrice = ? WHERE ItemID = ?";
+            String query = "UPDATE Auctions SET CurrentPrice = ?, WinnerId = NULL WHERE ItemID = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setDouble(1, newPrice);
                 preparedStatement.setInt(2, itemId);

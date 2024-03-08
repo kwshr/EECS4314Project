@@ -46,10 +46,8 @@ public class ItemCatalogueImpl implements ItemCatalogue{
                         item.setShippingCost(resultSet.getDouble("ShippingCost"));
                         item.setExpeditedShippingCost(resultSet.getDouble("ExpeditedShippingCost"));
                         item.setFinalShippingCost(resultSet.getDouble("FinalShippingCost"));
-                        item.setFixedTimeLimit(resultSet.getInt("FixedTimeLimit"));
                         item.setDutchReservedPrice(resultSet.getLong("DutchReservedPrice"));
-                        item.setDutchDecrementAmount(resultSet.getLong("DutchDecrementAmount"));
-                        item.setDutchDecrementTimeInterval(resultSet.getInt("DutchDecrementTimeInterval"));
+                        item.setDUtchEndTimer(resultSet.getTime("DuthEndTimer"));
                         item.setSellerId(resultSet.getInt("SellerID"));
                         items.add(item);
                     }
@@ -115,10 +113,9 @@ public class ItemCatalogueImpl implements ItemCatalogue{
                     item.setShippingCost(resultSet.getDouble("ShippingCost"));
                     item.setExpeditedShippingCost(resultSet.getDouble("ExpeditedShippingCost"));
                     item.setFinalShippingCost(resultSet.getDouble("FinalShippingCost"));
-                    item.setFixedTimeLimit(resultSet.getInt("FixedTimeLimit"));
                     item.setDutchReservedPrice(resultSet.getLong("DutchReservedPrice"));
-                    item.setDutchDecrementAmount(resultSet.getLong("DutchDecrementAmount"));
-                    item.setDutchDecrementTimeInterval(resultSet.getInt("DutchDecrementTimeInterval"));
+                    item.setDUtchEndTimer(resultSet.getTime("DuthEndTimer"));
+                    item.setSellerId(resultSet.getInt("SellerID"));
     
                     ItemCatalogueQueryResult result = new ItemCatalogueQueryResult(ItemCatalogueQueryResultStatus.SUCCESS, "Item retrieved successfully");
                     result.setData(item);
