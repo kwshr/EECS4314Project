@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Map;
+import java.util.Random;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -159,5 +162,41 @@ public class AuctionImpl implements Auction {
                 return new AuctionQueryResult(AuctionQueryResultStatus.ERROR, "Error retrieving winner ID for item with ID: " + itemId);
             }
         }
+
+        @Override
+        public AuctionQueryResult createAuction(Map<String,String> auction) {
+            int itemId = Integer.valueOf(auction.get("itemId"));
+            long currentPrice = Long.valueOf(auction.get("currentPrice"));
+            String auctionType = auction.get("auctionType");
+            if(itemId <=0 ){
+                return new AuctionQueryResult(AuctionQueryResultStatus.INVALID_INPUT,"Item id cannot be less than or equal to zero");
+            }
+            else{
+                try (Connection connection = databaseConnection.connect()) {
+                    Random random = new Random();
+                    int day = random.nextInt(4);
+                    int hours = random.nextInt(24);
+                    LocalDateTime starDateTime = LocalDateTime.now().plusDays(day).plusHours(hours);
+                    LocalDateTime enDateTime = starDateTime.plusHours(1);
+                    String query = "INSERT INTO Auctions (ItemID, StartDateTime, EndDateTime, CurrentPrice, AuctionType) VALUES (?, ?, ?, ?, ?)";
+                    try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                        preparedStatement.setInt(1, itemId);
+                        preparedStatement.setTimestamp(2, Timestamp.valueOf(starDateTime));
+                        preparedStatement.setTimestamp(3, Timestamp.valueOf(enDateTime));
+                        preparedStatement.setDouble(4, currentPrice);
+                        preparedStatement.setString(5, auctionType);
+                        int rowsAffected = preparedStatement.executeUpdate();
+                        if (rowsAffected > 0) {
+                            return new AuctionQueryResult(AuctionQueryResultStatus.SUCCESS, "Auction added successfully");
+                        } else {
+                            return new AuctionQueryResult(AuctionQueryResultStatus.ERROR, "Error adding auction to the database");
+                        }
+                } 
+            }
+                catch (SQLException e) {
+                    return new AuctionQueryResult(AuctionQueryResultStatus.ERROR, "Error adding auction to the database");
+            }
+        }
     }
+}
     
