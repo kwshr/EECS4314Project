@@ -43,7 +43,7 @@ public class AuthorizationImpl implements Authorization {
         try {
             try (Connection connection = databaseConnection.connect()) {
                 String query = "INSERT INTO Sellers (sellerUsername, password, firstName, lastName) " +
-                        "VALUES (?, ?, ?, ?)"; //Insert
+                        "VALUES (?, ?, ?, ?)";
                 try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                     preparedStatement.setString(1, userName);
                     preparedStatement.setString(2, password);
