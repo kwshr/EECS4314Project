@@ -7,4 +7,5 @@ public interface Auction {
     AuctionQueryResult getRemainingTimeUpdate(int itemId); 
     AuctionQueryResult endAuction (int itemId);
     AuctionQueryResult createAuction(Map<String,String> auction);
+    AuctionQueryResult auctionScheduler(Map<Integer, Map<String, Object>> auction);
 }

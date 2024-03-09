@@ -21,6 +21,67 @@ public class SellerImpl implements Seller {
 
     @Override
     public SellerQueryResult addSellItems(Item item) {
+        if(item.getAuctionType().equalsIgnoreCase("forward")){
+            return addForwardItem(item);
+        }
+        else if(item.getAuctionType().equalsIgnoreCase("dutch")){
+            return addDutchItem(item);
+        }
+        else{
+            return new SellerQueryResult(SellerServiceQueryStatus.INVALID_INPUT, "Auction Type can only be forward or dutch. Please, try again!");
+        }
+    }
+
+    private SellerQueryResult addForwardItem(Item item){
+        String itemName = item.getItemName();
+        String itemDescription = item.getItemDescription();
+        String auctionType = item.getAuctionType();
+        long price = item.getPrice();
+        int shippingTime = item.getShippingTime();
+        double shippingCost = item.getShippingCost();
+        double expeditedShippingCost = item.getExpeditedShippingCost();
+        double finalShippingCost = item.getFinalShippingCost();
+        int sellerId = item.getSellerId();
+
+        if(itemName == null || itemDescription == null || auctionType == null || itemName == "" || itemDescription == "" || auctionType == "" ||
+        price <= 0 || shippingTime <= 0 || shippingCost <= 0 || expeditedShippingCost <= 0 ||
+        finalShippingCost <= 0 ||sellerId <= 0){
+            return new SellerQueryResult(SellerServiceQueryStatus.INVALID_INPUT, "Invalid values provided, Please try again");
+        }
+
+        try (Connection connection = databaseConnection.connect()) {
+            String query = "INSERT INTO Items " +
+                    "(ItemName, ItemDescription, AuctionType, Price, ShippingTime, ShippingCost, " +
+                    "ExpeditedShippingCost, FinalShippingCost, SellerID" +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS)) {
+                preparedStatement.setString(1, itemName);
+                preparedStatement.setString(2, itemDescription);
+                preparedStatement.setString(3, auctionType);
+                preparedStatement.setLong(4, price);
+                preparedStatement.setInt(5, shippingTime);
+                preparedStatement.setDouble(6, shippingCost);
+                preparedStatement.setDouble(7, expeditedShippingCost);
+                preparedStatement.setDouble(8, finalShippingCost);
+                preparedStatement.setInt(9, sellerId);
+
+                int rowsAffected = preparedStatement.executeUpdate();
+                if (rowsAffected == 0) {
+                    return new SellerQueryResult(SellerServiceQueryStatus.ERROR, "Failed to add item: " + itemName);
+                } else {
+                    ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+                    int itemId = generatedKeys.getInt(1);
+                    SellerQueryResult sellerQueryResult = new SellerQueryResult(SellerServiceQueryStatus.SUCCESS, "Item added successfully: " + itemName);
+                    sellerQueryResult.setData(itemId); 
+                    return sellerQueryResult;
+                }
+            }
+        } catch (Exception e) {
+            return new SellerQueryResult(SellerServiceQueryStatus.ERROR, "Failed to add item: " + e.getMessage());
+        }
+    }
+
+    private SellerQueryResult addDutchItem(Item item){
         String itemName = item.getItemName();
         String itemDescription = item.getItemDescription();
         String auctionType = item.getAuctionType();
@@ -31,11 +92,15 @@ public class SellerImpl implements Seller {
         double finalShippingCost = item.getFinalShippingCost();
         long dutchReservedPrice = item.getDutchReservedPrice();
         Time dutchEndTimer = item.getDutchEndTimer();
+        int hours = dutchEndTimer.toLocalTime().getHour();
+        int minutes = dutchEndTimer.toLocalTime().getMinute();
+        int seconds = dutchEndTimer.toLocalTime().getSecond();
+        long totalMilliseconds = (hours * 60 * 60 + minutes * 60 + seconds) * 1000;
         int sellerId = item.getSellerId();
 
         if(itemName == null || itemDescription == null || auctionType == null || itemName == "" || itemDescription == "" || auctionType == "" ||
         price <= 0 || shippingTime <= 0 || shippingCost <= 0 || expeditedShippingCost <= 0 ||
-        finalShippingCost <= 0 || dutchEndTimer.getTime() <=0 || dutchEndTimer.getTime() >=30 * 60 * 1000 || sellerId <= 0){
+        finalShippingCost <= 0 || totalMilliseconds <=0 || totalMilliseconds >=30 * 60 * 1000 || sellerId <= 0){
             return new SellerQueryResult(SellerServiceQueryStatus.INVALID_INPUT, "Invalid values provided, Please try again");
         }
 
@@ -63,10 +128,14 @@ public class SellerImpl implements Seller {
                     return new SellerQueryResult(SellerServiceQueryStatus.ERROR, "Failed to add item: " + itemName);
                 } else {
                     ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+                    if(generatedKeys.next()){
                     int itemId = generatedKeys.getInt(1);
                     SellerQueryResult sellerQueryResult = new SellerQueryResult(SellerServiceQueryStatus.SUCCESS, "Item added successfully: " + itemName);
                     sellerQueryResult.setData(itemId); 
                     return sellerQueryResult;
+                    } else{
+                        return new SellerQueryResult(SellerServiceQueryStatus.ERROR, "No ID obtained for the newly added item");
+                    }
                 }
             }
         } catch (Exception e) {
