@@ -198,5 +198,11 @@ public class AuctionImpl implements Auction {
             }
         }
     }
+
+        @Override
+        public AuctionQueryResult auctionScheduler(Map<Integer, Map<String, Object>> auction) {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'auctionScheduler'");
+        }
 }
     

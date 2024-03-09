@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import okhttp3.OkHttpClient;
+
 @RestController
 @RequestMapping
 public class AuctionController {
@@ -69,6 +71,9 @@ public class AuctionController {
             response.put("message","Failed to end auction"+e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
          }
+    }
+
+    public void getAllAuctionedItems(){
     }
 }
 

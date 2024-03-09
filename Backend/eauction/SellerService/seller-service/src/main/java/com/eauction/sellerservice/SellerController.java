@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.common.Item;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -36,13 +36,14 @@ public class SellerController {
         SellerQueryResult sellerQueryResult = sellerImpl.addSellItems(item);
         if(sellerQueryResult.getSellerServiceQueryStatus() == SellerServiceQueryStatus.SUCCESS){
             int itemId = (Integer) sellerQueryResult.getData();
-            String baseuri = "http://localhost:8080/createAuction/";
-            FormBody formBody = new FormBody.Builder()
-            .add("itemId",String.valueOf(itemId))
-            .add("currentPrice", String.valueOf(item.getPrice()))
-            .add("auctionType", item.getAuctionType())
-            .build();
-            Request request = new Request.Builder().url(baseuri).post(formBody).build();
+            String baseuri = "http://localhost:8080/createAuction";
+            JSONObject formBody = new JSONObject();
+            formBody.put("itemId",String.valueOf(itemId));
+            formBody.put("currentPrice", String.valueOf(item.getPrice()));
+            formBody.put("auctionType", item.getAuctionType());
+            okhttp3.MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            okhttp3.RequestBody body = okhttp3.RequestBody.create(JSON,formBody.toString());
+            Request request = new Request.Builder().url(baseuri).post(body).build();
             try{
                 Response responseAuction = client.newCall(request).execute();
                 String responseBody = responseAuction.body().string();
