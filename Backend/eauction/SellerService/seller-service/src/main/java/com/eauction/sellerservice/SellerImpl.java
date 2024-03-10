@@ -36,7 +36,7 @@ public class SellerImpl implements Seller {
         String itemName = item.getItemName();
         String itemDescription = item.getItemDescription();
         String auctionType = item.getAuctionType();
-        long price = item.getPrice();
+        double price = item.getPrice();
         int shippingTime = item.getShippingTime();
         double shippingCost = item.getShippingCost();
         double expeditedShippingCost = item.getExpeditedShippingCost();
@@ -51,14 +51,14 @@ public class SellerImpl implements Seller {
 
         try (Connection connection = databaseConnection.connect()) {
             String query = "INSERT INTO Items " +
-                    "(ItemName, ItemDescription, AuctionType, Price, ShippingTime, ShippingCost, " +
-                    "ExpeditedShippingCost, FinalShippingCost, SellerID" +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+               "(ItemName, ItemDescription, AuctionType, Price, ShippingTime, ShippingCost, " +
+               "ExpeditedShippingCost, FinalShippingCost, SellerID) " + 
+               "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS)) {
                 preparedStatement.setString(1, itemName);
                 preparedStatement.setString(2, itemDescription);
                 preparedStatement.setString(3, auctionType);
-                preparedStatement.setLong(4, price);
+                preparedStatement.setDouble(4, price);
                 preparedStatement.setInt(5, shippingTime);
                 preparedStatement.setDouble(6, shippingCost);
                 preparedStatement.setDouble(7, expeditedShippingCost);
@@ -70,12 +70,17 @@ public class SellerImpl implements Seller {
                     return new SellerQueryResult(SellerServiceQueryStatus.ERROR, "Failed to add item: " + itemName);
                 } else {
                     ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+                    if(generatedKeys.next()){
                     int itemId = generatedKeys.getInt(1);
                     SellerQueryResult sellerQueryResult = new SellerQueryResult(SellerServiceQueryStatus.SUCCESS, "Item added successfully: " + itemName);
                     sellerQueryResult.setData(itemId); 
                     return sellerQueryResult;
                 }
+                else{
+                    return new SellerQueryResult(SellerServiceQueryStatus.ERROR, "No ID obtained for the newly added item: "+itemName);
+                }
             }
+        }
         } catch (Exception e) {
             return new SellerQueryResult(SellerServiceQueryStatus.ERROR, "Failed to add item: " + e.getMessage());
         }
