@@ -63,7 +63,8 @@ public class AuctionController {
             AuctionQueryResult endResult = auctionImpl.endAuction(itemId);
             if (endResult.getAuctionStatus() == AuctionQueryResultStatus.SUCCESS) {
                AuctionQueryResult winner = auctionImpl.getWinner(itemId);
-               response.put("message", "Auction ended successfully");
+               response.put("Ending Auction Status", endResult.getMessage());
+               response.put("message", winner.getMessage());
                response.put("data",winner.getData());
                return ResponseEntity.ok(response);
             } else {

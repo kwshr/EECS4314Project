@@ -144,12 +144,12 @@ public class AuctionImpl implements Auction {
 
         public AuctionQueryResult getWinner(int itemId){
             try (Connection connection = databaseConnection.connect()) {
-                String query = "SELECT WinnerId FROM Auctions WHERE ItemID = ?";
+                String query = "SELECT WinningBidder FROM Auctions WHERE ItemID = ?";
                 try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                     preparedStatement.setInt(1, itemId);
                     try (ResultSet resultSet = preparedStatement.executeQuery()) {
                         if (resultSet.next()) {
-                            int winnerId = resultSet.getInt("WinnerId");
+                            int winnerId = resultSet.getInt("WinningBidder");
                             AuctionQueryResult result = new AuctionQueryResult(AuctionQueryResultStatus.SUCCESS, "Winner ID retrieved successfully");
                             result.setData(winnerId);
                             return result;
