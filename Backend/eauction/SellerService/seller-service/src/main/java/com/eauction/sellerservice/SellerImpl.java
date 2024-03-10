@@ -154,7 +154,7 @@ public class SellerImpl implements Seller {
             return new SellerQueryResult(SellerServiceQueryStatus.INVALID_INPUT, "ItemId and newPrice cannot be less than 1. Please, try again");
         }
         try (Connection connection = databaseConnection.connect()) {
-            String query = "UPDATE Auctions SET CurrentPrice = ?, WinnerId = NULL WHERE ItemID = ?";
+            String query = "UPDATE Auctions SET CurrentPrice = ?, WinningBidder = NULL WHERE ItemID = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setDouble(1, newPrice);
                 preparedStatement.setInt(2, itemId);
