@@ -51,6 +51,9 @@ public class ItemCatalogueImpl implements ItemCatalogue{
                     }
                     ItemCatalogueQueryResult result = new ItemCatalogueQueryResult(ItemCatalogueQueryResultStatus.SUCCESS, "Search successful");
                     result.setData(items);
+                    if (items.isEmpty()) {
+                        result.setData("No items found");
+                    }
                     return result;
                 }
             }            
@@ -88,7 +91,7 @@ public class ItemCatalogueImpl implements ItemCatalogue{
         }
     }
 
-    @Override
+   @Override
     public ItemCatalogueQueryResult getItem(int itemId) {
         if(itemId <= 0){
             return new ItemCatalogueQueryResult(ItemCatalogueQueryResultStatus.NO_INPUT, "Itemid should be more than 0");
@@ -113,6 +116,7 @@ public class ItemCatalogueImpl implements ItemCatalogue{
                     item.setSellerId(resultSet.getInt("SellerID"));
     
                     ItemCatalogueQueryResult result = new ItemCatalogueQueryResult(ItemCatalogueQueryResultStatus.SUCCESS, "Item retrieved successfully");
+                    
                     result.setData(item);
                     return result;
                 } else {
