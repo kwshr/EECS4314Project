@@ -50,6 +50,9 @@ public class ItemCatalogueImpl implements ItemCatalogue{
                         items.add(item);
                     }
                     ItemCatalogueQueryResult result = new ItemCatalogueQueryResult(ItemCatalogueQueryResultStatus.SUCCESS, "Search successful");
+                    if(items.equals(null))
+                    result.setData("No Items found for the keyword: "+keyword);
+                    else
                     result.setData(items);
                     return result;
                 }
