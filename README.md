@@ -69,14 +69,11 @@ The `createAuction` endpoint of the AuctionService is seamlessly integrated with
 To ensure seamless integration, make sure to run both services simultaneously. The SellerService should be running on port 8081, and the AuctionService on port 8080.
 
 You can start both services with the following commands:
+```bash
 # Start SellerService on port 8081
-     cd path/to/SellerService
-     mvn clean install
-     mvn spring-boot:run
-
+$ cd path/to/SellerService
+$ mvn spring-boot:run
 
 # Start AuctionService on port 8080
-     cd path/to/AuctionService
-     mvn clean install
-     mvn spring-boot:run
-
+$ cd path/to/AuctionService
+$ mvn spring-boot:run
