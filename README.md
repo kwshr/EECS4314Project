@@ -62,7 +62,7 @@ The `createAuction` endpoint of the AuctionService is seamlessly integrated with
   - Endpoint: `/addItem`
 
 - **AuctionService:**
-  - Base URL: `http://localhost:8080`
+  - Base URL: `http://localhost:8082`
   - Endpoint: `/createAuction`
 
 ### Running Both Services
@@ -75,7 +75,7 @@ You can start both services with the following commands:
 $ cd path/to/SellerService
 $ mvn spring-boot:run
 
-# Start AuctionService on port 8080
+# Start AuctionService on port 8082
 $ cd path/to/AuctionService
 $ mvn spring-boot:run
 ```
