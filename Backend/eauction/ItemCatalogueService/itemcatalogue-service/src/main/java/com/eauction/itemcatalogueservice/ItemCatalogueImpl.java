@@ -46,8 +46,6 @@ public class ItemCatalogueImpl implements ItemCatalogue{
                         item.setShippingCost(resultSet.getDouble("ShippingCost"));
                         item.setExpeditedShippingCost(resultSet.getDouble("ExpeditedShippingCost"));
                         item.setFinalShippingCost(resultSet.getDouble("FinalShippingCost"));
-                        item.setDutchReservedPrice(resultSet.getLong("DutchReservedPrice"));
-                        item.setDUtchEndTimer(resultSet.getTime("DuthEndTimer"));
                         item.setSellerId(resultSet.getInt("SellerID"));
                         items.add(item);
                     }
@@ -76,10 +74,9 @@ public class ItemCatalogueImpl implements ItemCatalogue{
                     auctionData.put("ItemID", resultSet.getInt("ItemID"));
                     auctionData.put("StartDateTime", resultSet.getTimestamp("StartDateTime").toLocalDateTime());
                     auctionData.put("EndDateTime", resultSet.getTimestamp("EndDateTime").toLocalDateTime());
-                    auctionData.put("CurrentPrice", resultSet.getBigDecimal("CurrentPrice"));
+                    auctionData.put("CurrentPrice", resultSet.getDouble("CurrentPrice"));
                     auctionData.put("AuctionStatus", resultSet.getString("AuctionStatus"));
                     auctionData.put("AuctionType", resultSet.getString("AuctionType"));
-                    auctionData.put("WinnerID", resultSet.getInt("WinnerID"));
                     auctions.put(auctionID, auctionData);
                 }
                 ItemCatalogueQueryResult result = new ItemCatalogueQueryResult(ItemCatalogueQueryResultStatus.SUCCESS, "Retrieved active auctions successfully");
@@ -113,8 +110,6 @@ public class ItemCatalogueImpl implements ItemCatalogue{
                     item.setShippingCost(resultSet.getDouble("ShippingCost"));
                     item.setExpeditedShippingCost(resultSet.getDouble("ExpeditedShippingCost"));
                     item.setFinalShippingCost(resultSet.getDouble("FinalShippingCost"));
-                    item.setDutchReservedPrice(resultSet.getLong("DutchReservedPrice"));
-                    item.setDUtchEndTimer(resultSet.getTime("DuthEndTimer"));
                     item.setSellerId(resultSet.getInt("SellerID"));
     
                     ItemCatalogueQueryResult result = new ItemCatalogueQueryResult(ItemCatalogueQueryResultStatus.SUCCESS, "Item retrieved successfully");
