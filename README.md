@@ -47,6 +47,7 @@ Before setting up the backend for your application, ensure that the following pr
 Your application backend is now set up and running. Ensure that the necessary configurations and dependencies are in place for each microservice, and you are ready to start using your application.
 
 ## Integration Note
+### 1. AuctionService and SellerService
 
 The `createAuction` endpoint of the AuctionService is seamlessly integrated with the `addItem` endpoint of the SellerService. Here's how the integration works:
 
@@ -77,3 +78,30 @@ $ mvn spring-boot:run
 # Start AuctionService on port 8080
 $ cd path/to/AuctionService
 $ mvn spring-boot:run
+```
+
+### 2. AuctionService and ItemCatalogueService
+
+The AuctionService is a component of our system that facilitates the auctioning of items. Below are key details about the AuctionService:
+
+- **Port:** 8082
+
+- **Auction Scheduler:**
+  - The `AuctionService` features an auction scheduler that runs every 3 minutes.
+  - It invokes the `ItemCatalogueService` on port 8080 using the endpoint `/getAuctionedItems`.
+
+- **Integration with ItemCatalogue Service:**
+  - The `AuctionService` integrates with the `ItemCatalogueService` to retrieve a list of auctioned items.
+  - It calls the `/getAuctionedItems` endpoint on the `ItemCatalogueService` to obtain information about the current auction items.
+
+- **Auction Timer Logic:**
+  - Upon receiving the list of auctioned items, the `AuctionService` processes the data.
+  - It matches the auction start time and end time with the current time to determine whether to start or end an auction.
+  - This timer functionality ensures that auctions progress based on predefined schedules.
+
+- **Simultaneous Execution:**
+  - The `AuctionService` runs on port 8082, and the `ItemCatalogueService` runs on port 8080.
+  - Both services should be run simultaneously to achieve the desired results.
+  - Ensure that both services are up and running concurrently for effective auction management.
+
+**Note:** Make sure to start both services simultaneously for seamless integration and proper functioning of the auction scheduler.
