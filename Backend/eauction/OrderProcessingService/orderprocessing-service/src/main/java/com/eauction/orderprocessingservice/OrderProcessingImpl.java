@@ -20,7 +20,7 @@ public class OrderProcessingImpl implements OrderProcessing {
     @Override
     public OrderProcessingQueryResult generateReceipt(int itemId, String userName) {
         if(itemId<=0 || userName == null){
-            return new OrderProcessingQueryResult(OrderProcessingQueryResultStatus.ERROR, "ItemId should be more than one and userName cannot be null");
+            return new OrderProcessingQueryResult(OrderProcessingQueryResultStatus.INVALID_INPUT, "ItemId should be more than one and userName cannot be null");
         }
         try (Connection connection = databaseConnection.connect()) {
             Map<String, String> userInfo = getUserInformation(connection, userName);
@@ -86,7 +86,7 @@ public class OrderProcessingImpl implements OrderProcessing {
             preparedStatement.setInt(1, itemId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    return resultSet.getDouble("CurrentPrice");
+                    return resultSet.getDouble("FinalShippingCost");
                 } else {
                     throw new Exception("Item not found for itemId: " + itemId);
                 }
