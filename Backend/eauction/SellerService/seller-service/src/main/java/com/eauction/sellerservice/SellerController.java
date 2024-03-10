@@ -36,7 +36,7 @@ public class SellerController {
         SellerQueryResult sellerQueryResult = sellerImpl.addSellItems(item);
         if(sellerQueryResult.getSellerServiceQueryStatus() == SellerServiceQueryStatus.SUCCESS){
             int itemId = (Integer) sellerQueryResult.getData();
-            String baseuri = "http://localhost:8080/createAuction";
+            String baseuri = "http://localhost:8082/createAuction";
             JSONObject formBody = new JSONObject();
             formBody.put("itemId",String.valueOf(itemId));
             formBody.put("currentPrice", String.valueOf(item.getPrice()));
