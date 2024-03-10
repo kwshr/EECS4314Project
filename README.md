@@ -45,3 +45,37 @@ Before setting up the backend for your application, ensure that the following pr
    - Ensure that the common library is successfully built before building the microservices.
 
 Your application backend is now set up and running. Ensure that the necessary configurations and dependencies are in place for each microservice, and you are ready to start using your application.
+
+## Integration Note
+
+The `createAuction` endpoint of the AuctionService is seamlessly integrated with the `addItem` endpoint of the SellerService. Here's how the integration works:
+
+1. When the `addItem` endpoint of the SellerService successfully adds an item to the item table, it automatically triggers a call to the `createAuction` endpoint of the AuctionService.
+
+2. The `createAuction` endpoint of the AuctionService then processes the request and adds the newly added item to the auction, making it available for bidding.
+
+### Service Details
+
+- **SellerService:**
+  - Base URL: `http://localhost:8081`
+  - Endpoint: `/addItem`
+
+- **AuctionService:**
+  - Base URL: `http://localhost:8080`
+  - Endpoint: `/createAuction`
+
+### Running Both Services
+
+To ensure seamless integration, make sure to run both services simultaneously. The SellerService should be running on port 8081, and the AuctionService on port 8080.
+
+You can start both services with the following commands:
+
+```bash
+# Start SellerService on port 8081
+$ cd path/to/SellerService
+$ mvn spring-boot:run
+
+# Start AuctionService on port 8080
+$ cd path/to/AuctionService
+$ mvn spring-boot:run
+
