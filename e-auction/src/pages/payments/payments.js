@@ -41,6 +41,7 @@ function Payments() {
   return (
     <div className="payments-container">
       <Header />
+      <div className="contents">
       <div className="user-details">
         <h2>Winning User Details</h2>
         {/* Render user address details */}
@@ -56,17 +57,17 @@ function Payments() {
         <form onSubmit={submitPayment}>
           <input
             type="text"
-            name="cardNumber"
-            placeholder="Card Number"
-            value={paymentDetails.cardNumber}
+            name="cardName"
+            placeholder="Name on Card"
+            value={paymentDetails.cardName}
             onChange={handleInputChange}
             required
           />
           <input
             type="text"
-            name="cardName"
-            placeholder="Name on Card"
-            value={paymentDetails.cardName}
+            name="cardNumber"
+            placeholder="Card Number"
+            value={paymentDetails.cardNumber}
             onChange={handleInputChange}
             required
           />
@@ -88,6 +89,7 @@ function Payments() {
           />
           <button type="submit">SUBMIT</button>
         </form>
+      </div>
       </div>
     </div>
   );

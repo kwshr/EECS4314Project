@@ -30,7 +30,7 @@ function DutchBidding() {
         <div className="item-details">
           <h2>{item.name}</h2>
           <img src={item.image} alt={item.name} />
-          <p>Item Desciption: {item.description}</p>
+          <p>Item Description: {item.description}</p>
           <p>Normal Shipping Cost: ${item.shippingCost}</p>
         </div>
         <div className="bidding-details">

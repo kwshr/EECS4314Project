@@ -32,12 +32,12 @@
     margin: 10px;
     font-size: 1rem;
     cursor: pointer;
-    border: 1px solid #4a7ff3;
-    background-color: #4a7ff3;
+    border: 1px solid #5c6bc0;
+    background-color: #5c6bc0;
     transition: background-color 0.3s ease;
   }
   
   .sign-in-btn:hover,
   .sign-up-btn:hover {
-    background-color: #689ff1;
+    background-color: #3949ab;
   }

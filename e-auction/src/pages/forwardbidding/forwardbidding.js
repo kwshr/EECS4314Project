@@ -44,7 +44,7 @@ function ForwardBidding() {
         <div className="item-details">
           <h2>{itemData.name}</h2>
           <img src={itemData.image} alt={itemData.name} />
-          <p>Item Desciption: {itemData.description}</p>
+          <p>Item Description: {itemData.description}</p>
           <p>Normal Shipping Cost: ${itemData.shippingCost}</p>
         </div>
         <div className="bidding-details">
@@ -60,7 +60,9 @@ function ForwardBidding() {
             />
             <button type="submit">BID</button>
           </form>
+          <div className="remaining-time">
           <p>Remaining Time: {formatRemainingTime(itemData.remainingTime)}</p>
+        </div>
         </div>
       </div>
     </div>

@@ -22,8 +22,18 @@
     font-size: 1rem;
   }
   
+  .signin-btn:hover {
+    background-color: #3949ab;
+  }
+
+  .signin-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+  
   .signin-btn {
-    width: 100%;
+    flex: 1; 
     padding: 10px;
     border: none;
     background-color: #5c6bc0;
@@ -32,10 +42,11 @@
     cursor: pointer;
     font-size: 1rem;
     text-transform: uppercase;
+    margin-right: 5px;
   }
   
-  .signin-btn:hover {
-    background-color: #3949ab;
+  .signin-btn.seller {
+    margin-right: 0;
   }
   
   .forgot-password-btn {
@@ -44,7 +55,7 @@
     color: #5c6bc0;
     cursor: pointer;
     padding: 10px;
-    display: inline-block; /* To keep the button text-aligned */
+    display: inline-block;
     margin-top: 10px;
   }
   
