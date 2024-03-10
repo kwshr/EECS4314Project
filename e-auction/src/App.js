@@ -10,6 +10,11 @@ import DutchBidding from './pages/dutchbidding/dutchbidding';
 import AuctionEnded from './pages/auctionended/auctionended';
 import Payments from './pages/payments/payments';
 import Confirmation from './pages/confirmation/confirmation';
+import SellerHome from './pages/sellerhome/sellerhome';
+import SellItem from './pages/sellitem/sellitem';
+import UpdatePrice from './pages/updateprice/updateprice';
+import ForgotPassword from './pages/forgotpassword/forgotpassword';
+import ResetPassword from './pages/resetpassword/resetpassword';
 import './App.css';
 
 
@@ -29,6 +34,11 @@ function App() {
           <Route exact path="/auctionended" element={<AuctionEnded />} />
           <Route exact path="/payments" element={<Payments />} />
           <Route exact path="/confirmation" element={<Confirmation />} />
+          <Route exact path="/sellerhome" element={<SellerHome />} />
+          <Route exact path="/sellitem" element={<SellItem />} />
+          <Route exact path="/updateprice" element={<UpdatePrice />} />
+          <Route exact path="/forgotpassword" element={<ForgotPassword />} />
+          <Route exact path="/resetpassword" element={<ResetPassword />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </BrowserRouter>

@@ -1,34 +1,75 @@
 .confirmation-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: 'Arial', sans-serif;
-  }
-  
-  .receipt-section, .shipping-section {
-    width: 50%;
-    padding: 20px;
-    box-sizing: border-box;
-  }
-  
-  h2 {
-    text-align: center;
-  }
-  
-  .receipt-section, .shipping-section {
-    margin-bottom: 20px;
-  }
-  
-  button {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
+  font-family: 'Arial', sans-serif;
+}
+
+.contents {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 20px auto;
+}
+
+.receipt-section, .shipping-section {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.receipt-section h2, .shipping-section h2 {
+  position: relative;
+  padding-bottom: 5px;
+}
+
+.receipt-section h2::after, .shipping-section h2::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: currentColor;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+.receipt-section p, .shipping-section p {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.receipt-section p span, .shipping-section p span {
+  margin-left: 5px;
+}
+
+.receipt-section p::before, .shipping-section p::before {
+  content: attr(data-label);
+  font-weight: bold;
+}
+
+.receipt-section p.total-paid {
+  margin-top: 10%;
+}
+
+.back-to-home-button-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #5c6bc0;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #3949ab;
+}

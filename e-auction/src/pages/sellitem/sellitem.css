@@ -1,0 +1,54 @@
+.sellitem-container {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+  }
+  
+  .sellitem-title {
+    margin: 20px 0;
+  }
+  
+  .sellitem-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 400px;
+    margin: auto;
+  }
+  
+  .sellitem-form input,
+  .sellitem-form textarea,
+  .sellitem-form select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  .sellitem-form textarea {
+    height: 100px;
+    resize: vertical;
+  }
+  
+  .sellitem-form select {
+    text-align: center;
+    text-align-last: center;
+  }
+  
+  .upload-btn {
+    padding: 10px 50px;
+    margin-top: 20px;
+    border: none;
+    background-color: #5c6bc0;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    text-transform: uppercase;
+  }
+  
+  .upload-btn:hover {
+    background-color: #3949ab;
+  }
+  

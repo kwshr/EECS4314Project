@@ -3,38 +3,43 @@ import Header from '../../components/header/header';
 import { useNavigate } from 'react-router-dom';
 import './signin.css';
 
-function SignUp() {
+function SignIn() {
   const navigate = useNavigate();
 
-  const handleSignIn = (event) => {
+  const handleSignInUser = (event) => {
     event.preventDefault();
-    // check the credentials and sign the user in if correct
-    // redirecting to dummy route for now
     navigate('/itemsearch');
   };
 
-  const handleForgotPassword = () => {
-    // log on console for now, redirect to actual mechanism later
-    console.log('Redirecting to forgot password page');
+  const handleSignInSeller = (event) => {
+    event.preventDefault();
+    navigate('/sellerhome');
   };
 
+  const handleForgotPassword = () => {
+    console.log('Redirecting to forgot password page');
+    navigate('/forgotpassword');
+  };
 
   return (
     <div className="signin-container">
       <Header />
       <div className="signin-form-container">
         <h2 className="signin-title">Login</h2>
-        <form className="signin-form" onSubmit={handleSignIn}>
+        <form className="signin-form">
           <input type="text" id="username" name="username" placeholder="User Name" required />
           <input type="password" id="password" name="password" placeholder="Password" required />
-          <button type="submit" className="signin-btn">Submit</button>
+          <div className="signin-buttons">
+            <button onClick={handleSignInUser} className="signin-btn user">Login as USER</button>
+            <button onClick={handleSignInSeller} className="signin-btn seller">Login as SELLER</button>
+          </div>
         </form>
         <button onClick={handleForgotPassword} className="forgot-password-btn">
-          Forgot password?
+          Forgot Password?
         </button>
       </div>
     </div>
   );
-};
+}
 
-export default SignUp;
+export default SignIn;

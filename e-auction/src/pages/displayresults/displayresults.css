@@ -3,9 +3,9 @@
   }
   
   .results-table {
-    width: 98%; /* Almost full width */
-    margin: 10px auto; /* Center the table on the page */
-    border-collapse: collapse; /* Collapse borders */
+    width: 98%; 
+    margin: 10px auto; 
+    border-collapse: collapse;
   }
   
   .results-table th,
