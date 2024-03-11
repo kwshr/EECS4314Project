@@ -1,5 +1,7 @@
 # Application Backend Setup Guide
 
+Before proceeding with the installation instructions, please note that the required backend services are located in the Backend/ folder. The backend implementation, consisting of essential microservices and configurations, can be found within this directory. Make sure to follow the subsequent steps to set up and run these services effectively for seamless integration with your application.
+
 ## Prerequisites
 Before setting up the backend for your application, ensure that the following prerequisites are met:
 
