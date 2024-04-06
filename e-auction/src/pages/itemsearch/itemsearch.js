@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Header from '../../components/header/header';
 import './itemsearch.css';
 
@@ -7,11 +8,16 @@ function ItemSearch() {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
-  const handleSearch = (event) => {
+  const handleSearch = async (event) => {
     event.preventDefault();
-    // handle the search logic with the searchTerm state.
-    // don't have backend integration rn, just redirect to the display results page for now
-    navigate('/displayresults');
+    try {
+      // Replace 'http://localhost:8080' with your backend's actual base URL
+      const response = await axios.get(`https://itemcatalogueservice.onrender.com/search/${searchTerm}`);
+      navigate('/displayresults', { state: { items: response.data.data } });
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+      // Handle error appropriately (show an error message, etc.)
+    }
   };
 
   return (
