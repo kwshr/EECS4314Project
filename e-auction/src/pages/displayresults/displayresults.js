@@ -1,42 +1,58 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Header from '../../components/header/header';
 import './displayresults.css';
 
-// Generating additional dummy data
-const generateDummyData = () => {
-    const additionalItems = [];
-    for (let i = 3; i <= 10; i++) {
-      additionalItems.push({
-        id: i,
-        name: `Item ${i}`,
-        price: `${100 * i}`,
-        auctionType: i % 2 === 0 ? 'Dutch' : 'Forward',
-        remainingTime: i % 2 === 0 ? 'N/A' : `${60 + i}mins ${i}secs`
-      });
-    }
-    return additionalItems;
-  };  
+function formatDuration(duration) {
+  const pattern = /PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/;
+  const matches = pattern.exec(duration);
+  if (!matches) return duration; // Return original if no match
 
-// Dummy data array
-const items = [
-  { id: 1, name: 'Bicycle', price: '100', auctionType: 'Dutch', remainingTime: 'N/A' },
-  { id: 2, name: 'Car', price: '1000', auctionType: 'Forward', remainingTime: '1h 50mins 3secs' },
-  ...generateDummyData() // populate array with generated dummy items
-];
+  const hours = matches[1] ? `${matches[1]} Hours, ` : '';
+  const minutes = matches[2] ? `${matches[2]} Minutes, ` : '';
+  const seconds = matches[3] ? `${matches[3]} Seconds` : '';
+  return hours + minutes + seconds;
+}
 
 function DisplayResults() {
-  const [selectedItemId, setSelectedItemId] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  // Explicitly access the items passed through the location state from the ItemSearch page
+  const items = location.state?.items || [];
+  const [selectedItemId, setSelectedItemId] = useState(null);
+  const [itemsWithRemainingTime, setItemsWithRemainingTime] = useState([]);
+
+  useEffect(() => {
+    const fetchRemainingTimes = async () => {
+      const fetchedItems = await Promise.all(items.map(async (item) => {
+        try {
+          const response = await axios.get(`https://auctionservice.onrender.com/getRemainingTime/${item.itemId}`);
+          const formattedTime = formatDuration(response.data.data || 'N/A');
+          return { ...item, remainingTime: formattedTime };
+        } catch (error) {
+          console.error('Error fetching remaining time for item:', error);
+          return { ...item, remainingTime: 'Unavailable' };
+        }
+      }));
+      setItemsWithRemainingTime(fetchedItems);
+    };
+
+    if (items.length > 0) {
+      fetchRemainingTimes();
+    }
+  }, [items]);
 
   const handleBackToSearch = () => {
     navigate('/itemsearch');
   };
 
   const handleBid = () => {
-    const selectedItem = items.find(item => item.id === selectedItemId);
-    const page = selectedItem.auctionType.toLowerCase() === 'dutch' ? '/dutchbidding' : '/forwardbidding';
-    navigate(page);
+    const selectedItem = itemsWithRemainingTime.find(item => item.itemId === selectedItemId);
+    if (selectedItem) {
+      const page = selectedItem.auctionType.toLowerCase() === 'dutch' ? '/dutchbidding' : '/forwardbidding';
+      navigate(page, { state: { item: selectedItem } });
+    }
   };
 
   return (
@@ -53,9 +69,9 @@ function DisplayResults() {
           </tr>
         </thead>
         <tbody>
-          {items.map(item => (
-            <tr key={item.id}>
-              <td>{item.name}</td>
+          {itemsWithRemainingTime.map((item) => (
+            <tr key={item.itemId}>
+              <td>{item.itemName}</td>
               <td>${item.price}</td>
               <td>{item.auctionType}</td>
               <td>{item.remainingTime}</td>
@@ -63,8 +79,8 @@ function DisplayResults() {
                 <input
                   type="radio"
                   name="selectedItem"
-                  value={item.id}
-                  onChange={() => setSelectedItemId(item.id)}
+                  value={item.itemId}
+                  onChange={() => setSelectedItemId(item.itemId)}
                 />
               </td>
             </tr>
