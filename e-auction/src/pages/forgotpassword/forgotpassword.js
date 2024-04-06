@@ -5,13 +5,11 @@ import './forgotpassword.css';
 
 function ForgotPassword() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
+  const [userName, setUserName] = useState('');
 
   const handleSendLink = (event) => {
     event.preventDefault();
-    alert('If the email is registered, a password reset link will be sent. Following that link, you will be redirected to a /resetpassword page with a token.');
-    setEmail('');
-    navigate('/resetpassword');
+    navigate('/resetpassword', { state: { userName: userName } });
   };
 
   const handleBackToSignIn = () => {
@@ -24,15 +22,15 @@ function ForgotPassword() {
       <h2 className="forgotpassword-title">Forgot Password?</h2>
       <form className="forgotpassword-form" onSubmit={handleSendLink}>
         <input
-          type="email"
-          id="userEmail"
-          name="userEmail"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email"
+          type="text"
+          id="userName"
+          name="userName"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+          placeholder="Enter your user name"
           required
         />
-        <button type="submit" className="send-link-btn">Send Link</button>
+        <button type="submit" className="send-link-btn">Reset Password</button>
       </form>
       <button onClick={handleBackToSignIn} className="back-signin-btn">
         Back to Sign In
