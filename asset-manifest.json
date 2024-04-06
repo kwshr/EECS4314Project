@@ -1,18 +1,18 @@
 {
   "files": {
     "main.css": "/E-Auction/static/css/main.82474348.css",
-    "main.js": "/E-Auction/static/js/main.9fc17c81.js",
+    "main.js": "/E-Auction/static/js/main.bc057772.js",
     "static/js/453.a640346e.chunk.js": "/E-Auction/static/js/453.a640346e.chunk.js",
     "static/media/rolex.jpeg": "/E-Auction/static/media/rolex.2eed151f8a3a8ca3fc09.jpeg",
     "static/media/css-pattern.png": "/E-Auction/static/media/css-pattern.463a1e03eefd8c08784c.png",
     "static/media/KJYY.png": "/E-Auction/static/media/KJYY.54162d94f5b13cf4b2d2.png",
     "index.html": "/E-Auction/index.html",
     "main.82474348.css.map": "/E-Auction/static/css/main.82474348.css.map",
-    "main.9fc17c81.js.map": "/E-Auction/static/js/main.9fc17c81.js.map",
+    "main.bc057772.js.map": "/E-Auction/static/js/main.bc057772.js.map",
     "453.a640346e.chunk.js.map": "/E-Auction/static/js/453.a640346e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.82474348.css",
-    "static/js/main.9fc17c81.js"
+    "static/js/main.bc057772.js"
   ]
 }
