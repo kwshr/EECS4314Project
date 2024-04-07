@@ -17,7 +17,6 @@ function ItemSearch() {
       navigate('/displayresults', { state: { items: response.data.data, userName: userName } });
     } catch (error) {
       console.error('Error fetching search results:', error);
-      // Handle error appropriately (show an error message, etc.)
     }
   };
 
