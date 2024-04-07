@@ -14,7 +14,7 @@
   text-align: left;
   display: flex;
   flex-direction: column;
-  justify-content: center; 
+  justify-content: center;
 }
 
 .item-details h2 {
@@ -23,12 +23,7 @@
   text-align: center;
 }
 
-.item-details img {
-  max-width: 100%;
-  max-height: 400px;
-  object-fit: contain;
-  margin-bottom: 10px;
-}
+/* Removed styles related to the image display */
 
 .item-details p {
   margin-bottom: 10px;
@@ -40,13 +35,13 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; 
+  justify-content: space-between;
 }
 
 .bidding-details p {
-  font-size: 1.5em; 
-  text-align: center; 
-  margin-top: 10px; 
+  font-size: 1.5em;
+  text-align: center;
+  margin-top: 10px;
 }
 
 .bidding-details form {
@@ -54,11 +49,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 40%; 
+  margin-top: 40%;
 }
 
 .bidding-details form input {
-  width: 70%; 
+  width: 70%;
   margin-right: 10px;
   padding: 10px;
   border: 1px solid #ddd;
@@ -66,7 +61,7 @@
 }
 
 .bidding-details form button {
-  width: 30%; 
+  width: 30%;
   padding: 10px;
   background-color: #5c6bc0;
   color: white;
@@ -80,7 +75,7 @@
 }
 
 .remaining-time {
-  font-size: 0.6em; 
-  text-align: center; 
-  margin-top: 30%; 
+  font-size: 0.6em;
+  text-align: center;
+  margin-top: 30%;
 }

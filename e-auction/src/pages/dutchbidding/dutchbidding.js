@@ -1,26 +1,48 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Header from '../../components/header/header';
 import './dutchbidding.css';
 
-// Dummy data
-const item = {
-    id: 1,
-    name: 'Rolex GMT Master II',
-    image: require('../../components/assets/rolex.jpeg'),
-    description: 'A rare and exquisite Rolex GMT Master II from the late 90s for wristwatch connoisseurs',
-    shippingCost: '45.00',
-    currentPrice: '150000.00' //updates dynamically
-};
-
 function DutchBidding() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [currentPrice, setCurrentPrice] = useState('Fetching...');
 
-  // use actual logic to handle the 'Buy Now' action
+  // Access item details and user info from the location state
+  const item = location.state?.item || {
+    itemId: null,
+    itemName: 'No Item Selected',
+    itemDescription: 'N/A',
+    shippingCost: '0.00'
+  };
+
+  // Assuming user info is also passed in location state
+  const user = location.state?.user || {
+    UserID: null
+  };
+
+  useEffect(() => {
+    // Function to fetch current price from an API
+    const fetchCurrentPrice = async () => {
+      try {
+        const response = await axios.get(`https://auctionservice.onrender.com/getAuctionedItemDetails/${item.itemId}`);
+        setCurrentPrice(response.data.data.CurrentPrice);
+      } catch (error) {
+        console.error('Error fetching current price:', error);
+        setCurrentPrice('Unavailable');
+      }
+    };
+
+    if (item.itemId) {
+      fetchCurrentPrice();
+    }
+  }, [item.itemId]);
+
   const buyNow = () => {
-    console.log('Buy Now clicked for item:', item.id);
-    
-    navigate('/auctionended');
+    console.log('Buy Now clicked for item:', item.itemId, 'by user:', user.UserID);
+    // Navigate to /auctionended and pass item and user state forward
+    navigate('/auctionended', { state: { item: item, user: user } });
   };
 
   return (
@@ -28,18 +50,17 @@ function DutchBidding() {
       <Header />
       <div className="auction-container">
         <div className="item-details">
-          <h2>{item.name}</h2>
-          <img src={item.image} alt={item.name} />
-          <p>Item Description: {item.description}</p>
+          <h2>{item.itemName}</h2>
+          <p>Item Description: {item.itemDescription}</p>
           <p>Normal Shipping Cost: ${item.shippingCost}</p>
         </div>
         <div className="bidding-details">
-          <p className="current-price">Current Price: ${item.currentPrice}</p>
+          <p className="current-price">Current Price: {currentPrice}</p>
           <button onClick={buyNow} className="buy-now-btn">BUY NOW!</button>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default DutchBidding;
