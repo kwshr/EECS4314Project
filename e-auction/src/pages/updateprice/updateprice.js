@@ -5,6 +5,8 @@ import './updateprice.css';
 
 function UpdatePrice() {
   const navigate = useNavigate();
+  const location = useLocation(); 
+  const userName = location.state.userName;
   const [itemId, setItemId] = useState('');
   const [updatedPrice, setUpdatedPrice] = useState('');
 

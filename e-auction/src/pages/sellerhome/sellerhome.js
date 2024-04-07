@@ -5,13 +5,15 @@ import './sellerhome.css';
 
 function SellerHome() {
   const navigate = useNavigate();
+  const location = useLocation(); 
+  const userName = location.state.userName;
 
   const handleUploadItem = () => {
-    navigate('/sellitem');
+    navigate('/sellitem',{ state: { userName: userName } });
   };
 
   const handleDutchAuctionUpdate = () => {
-    navigate('/updateprice');
+    navigate('/updateprice',{ state: { userName: userName } });
   };
 
   return (

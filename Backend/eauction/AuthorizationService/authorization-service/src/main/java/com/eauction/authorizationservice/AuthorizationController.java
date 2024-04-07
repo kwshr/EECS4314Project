@@ -32,11 +32,11 @@ public class AuthorizationController {
         return HttpResponseStatus.setResponse(response);
     }
 
-    @RequestMapping(value="/signIn", method=RequestMethod.POST)
-    public ResponseEntity<Map<String,Object>> signInUser(@RequestBody Map<String,String> credentials) {
+    @RequestMapping(value="/signIn/{accountType}", method=RequestMethod.POST)
+    public ResponseEntity<Map<String,Object>> signInUser(@RequestBody Map<String,String> credentials,@PathVariable("accountType") String accountType) {
        String userName = credentials.get("userName");
        String password = credentials.get("password");
-        AuthorizationQueryResult authorizationResult = authorizationImpl.signIn(userName,password);
+        AuthorizationQueryResult authorizationResult = authorizationImpl.signIn(userName,password,accountType);
         Map<String,Object> response = new HashMap<String,Object>();
         response.put("message",authorizationResult.getMessage());
         response.put("queryStatus", authorizationResult.getAuthorizationStatus());
@@ -57,6 +57,26 @@ public class AuthorizationController {
     @RequestMapping(value="/getDetails/{userId}", method=RequestMethod.GET)
     public ResponseEntity<Map<String,Object>> getUserDetails(@PathVariable("userId") int userId) {
         AuthorizationQueryResult authorizationResult = authorizationImpl.getUserDetails(userId);
+        Map<String,Object> response = new HashMap<String,Object>();
+        response.put("message",authorizationResult.getMessage());
+        response.put("queryStatus", authorizationResult.getAuthorizationStatus());
+        response.put("data",authorizationResult.getData());
+        return HttpResponseStatus.setResponse(response);
+    }
+
+    @RequestMapping(value="/getUserId/{userName}", method=RequestMethod.GET)
+    public ResponseEntity<Map<String,Object>> getUserId(@PathVariable("userName") String userName) {
+        AuthorizationQueryResult authorizationResult = authorizationImpl.getUserId(userName);
+        Map<String,Object> response = new HashMap<String,Object>();
+        response.put("message",authorizationResult.getMessage());
+        response.put("queryStatus", authorizationResult.getAuthorizationStatus());
+        response.put("data",authorizationResult.getData());
+        return HttpResponseStatus.setResponse(response);
+    }
+
+    @RequestMapping(value="/getSellerId/{userName}", method=RequestMethod.GET)
+    public ResponseEntity<Map<String,Object>> getSellerId(@PathVariable("userName") String userName) {
+        AuthorizationQueryResult authorizationResult = authorizationImpl.getSellerId(userName);
         Map<String,Object> response = new HashMap<String,Object>();
         response.put("message",authorizationResult.getMessage());
         response.put("queryStatus", authorizationResult.getAuthorizationStatus());

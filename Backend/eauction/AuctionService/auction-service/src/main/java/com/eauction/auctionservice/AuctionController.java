@@ -78,6 +78,15 @@ public class AuctionController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
          }
     }
+    @RequestMapping(value="/getAuctionedItemDetails/{itemId}", method=RequestMethod.GET)
+    public ResponseEntity<Map<String,Object>> getAuctionedItemDetails(@PathVariable("itemId") int itemId) {
+     Map<String,Object> response = new HashMap<String,Object>();
+     AuctionQueryResult auctionQueryResult = auctionImpl.getAuctionedItemDetails(itemId);
+     response.put("message",auctionQueryResult.getMessage());
+     response.put("queryStatus", auctionQueryResult.getAuctionStatus());
+     response.put("data", auctionQueryResult.getData());
+     return HttpResponseStatus.setResponse(response);
+    }
 }
 
 

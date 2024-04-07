@@ -5,6 +5,8 @@ import './sellitem.css';
 
 function SellItem() {
   const navigate = useNavigate();
+  const location = useLocation(); 
+  const userName = location.state.userName;
   
   const [itemName, setItemName] = useState('');
   const [itemDescription, setItemDescription] = useState('');

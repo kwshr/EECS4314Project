@@ -99,7 +99,43 @@ public class AuthorizationImpl implements Authorization {
     }
 
     @Override
-    public AuthorizationQueryResult signIn(String userName, String password) {
+    public AuthorizationQueryResult signIn(String userName, String password,String accountType){
+        if(accountType.equalsIgnoreCase("user")){
+            return signInUser(userName,password);
+        }
+        else if(accountType.equalsIgnoreCase("seller")){
+            return signInSeller(userName,password);
+        }
+        else{
+            return new AuthorizationQueryResult(AuthorizationQueryResultStatus.INVALID_INPUT, "Invalid account type chosen");
+        }
+    }
+
+    public AuthorizationQueryResult signInSeller(String userName, String password) {
+        if (userName == null || password == null || userName == "" || password == "")
+            return new AuthorizationQueryResult(AuthorizationQueryResultStatus.INVALID_INPUT, "Invalid parameters: userName and password must not be null");
+        else {
+            try (Connection connection = databaseConnection.connect()) {
+                String query = "SELECT SellerID FROM Sellers WHERE SellerUsername = ? AND password = ?";
+                try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                    preparedStatement.setString(1, userName);
+                    preparedStatement.setString(2, password);
+
+                    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                        if (resultSet.next()) {
+                            return new AuthorizationQueryResult(AuthorizationQueryResultStatus.SUCCESS, "Sign-in successful");
+                        } else {
+                            return new AuthorizationQueryResult(AuthorizationQueryResultStatus.NOT_FOUND, "Invalid username or password");
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                return new AuthorizationQueryResult(AuthorizationQueryResultStatus.ERROR, "Failed to sign in: " + e.getMessage());
+            }
+        }
+    }
+
+    public AuthorizationQueryResult signInUser(String userName, String password) {
         if (userName == null || password == null || userName == "" || password == "")
             return new AuthorizationQueryResult(AuthorizationQueryResultStatus.INVALID_INPUT, "Invalid parameters: userName and password must not be null");
         else {
@@ -176,6 +212,56 @@ public class AuthorizationImpl implements Authorization {
             }
         } catch (SQLException e) {
             return new AuthorizationQueryResult(AuthorizationQueryResultStatus.ERROR, "Failed to fetch Users details" + e.getMessage());
+        }
+    }
+
+    @Override
+    public AuthorizationQueryResult getUserId(String userName){
+        try (Connection connection = databaseConnection.connect()){
+            String sql = "SELECT UserID " +
+                         "FROM Users " +
+                         "WHERE UserName = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, userName);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    Map<String, String> userDetails = new HashMap<String,String>();
+                    if (resultSet.next()) {
+                        userDetails.put("UserId", resultSet.getString("UserId"));
+                        AuthorizationQueryResult result = new AuthorizationQueryResult(AuthorizationQueryResultStatus.SUCCESS, "User's id fetched successfully");
+                        result.setData(userDetails);
+                        return result;
+                    } else {
+                        return new AuthorizationQueryResult(AuthorizationQueryResultStatus.NOT_FOUND, "Could not retrive the User id. Please double-check the UserId");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            return new AuthorizationQueryResult(AuthorizationQueryResultStatus.ERROR, "Failed to fetch Users details" + e.getMessage());
+        }
+    }
+
+    @Override
+    public AuthorizationQueryResult getSellerId(String userName){
+        try (Connection connection = databaseConnection.connect()){
+            String sql = "SELECT SellerID " +
+                         "FROM Sellers " +
+                         "WHERE SellerUsername = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, userName);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    Map<String, String> userDetails = new HashMap<String,String>();
+                    if (resultSet.next()) {
+                        userDetails.put("SellerID", resultSet.getString("SellerID"));
+                        AuthorizationQueryResult result = new AuthorizationQueryResult(AuthorizationQueryResultStatus.SUCCESS, "Seller's id fetched successfully");
+                        result.setData(userDetails);
+                        return result;
+                    } else {
+                        return new AuthorizationQueryResult(AuthorizationQueryResultStatus.NOT_FOUND, "Could not retrive the Seller.");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            return new AuthorizationQueryResult(AuthorizationQueryResultStatus.ERROR, "Failed to fetch seller details" + e.getMessage());
         }
     }
 }
