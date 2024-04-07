@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
 import Header from '../../components/header/header';
 import './payments.css';
 
@@ -9,6 +10,16 @@ function Payments() {
   const item = location.state.item
   const currentPrice = location.state.currentPrice;
   const [errorMessage, setErrorMessage] = useState('');
+
+  const [paymentDetails, setPaymentDetails] = useState({
+    cardName: '',
+    cardNumber: '',
+    expiryDate: '',
+    securityCode: '',
+  });
+
+  const [shippingCost, setShippingCost] = useState(0);
+
   const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState(null);
   const finalShippingPrice = item.finalShippingPrice;

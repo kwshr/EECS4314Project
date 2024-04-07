@@ -50,4 +50,21 @@
   .pay-now-btn:hover {
     background-color: #45a049;
   }
+
+  .back-to-search-btn {
+    padding: 10px 20px;
+    margin-top: 20px; /* Adjusted for spacing */
+    background-color: #5c6bc0;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    position: absolute; /* Position the button at the bottom left */
+    bottom: 20px;
+    left: 20px;
+  }
+  
+  .back-to-search-btn:hover {
+    background-color: #3949ab;
+  }
   

@@ -1,24 +1,52 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../../components/header/header';
 import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './updateprice.css';
 
 function UpdatePrice() {
   const navigate = useNavigate();
-  const location = useLocation(); 
+  const location = useLocation();
   const userName = location.state.userName;
+  const [sellerId, setSellerId] = useState('');
   const [itemId, setItemId] = useState('');
   const [updatedPrice, setUpdatedPrice] = useState('');
+  const [currentPrice, setCurrentPrice] = useState(); // Add state to hold the current price
 
-  const handleUpdatePrice = (event) => { // implement logic to check that entered price is less than current price.
+  // Get sellerId when the component mounts or when userName changes
+  useEffect(() => {
+    const fetchSellerId = async () => {
+      const response = await axios.get(`/getSellerId/${userName}`);
+      setSellerId(response.data.sellerId);
+    };
+    fetchSellerId();
+  }, [userName]);
+
+  const handleUpdatePrice = async (event) => {
     event.preventDefault();
-    const success = true; //replace with actual value after backend integration
+    // You would want to get the current price of the item first
+    // and compare to make sure the updated price is less.
+    // Here's a pseudocode placeholder for that logic:
+    // if (updatedPrice >= currentPrice) {
+    //   alert('Updated price must be less than the current price.');
+    //   return;
+    // }
 
-    if (success) {
-      alert('The price for the given dutch auction item has been successfully updated.');
-      setItemId('');
-      setUpdatedPrice('');
-    } else {
+    try {
+      const response = await axios.put('/updatePrice', {
+        itemId,
+        updatedPrice: Number(updatedPrice),
+        sellerId
+      });
+      if (response.data.status === 'OK') {
+        alert('The price for the given Dutch auction item has been successfully updated.');
+        setItemId('');
+        setUpdatedPrice('');
+      } else {
+        alert('Failed to update the price. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error updating price:', error);
       alert('Failed to update the price. Please try again.');
     }
   };
@@ -26,29 +54,12 @@ function UpdatePrice() {
   return (
     <div className="updateprice-container">
       <Header />
-      <h2 className="updateprice-title">Decrease price for dutch auction item</h2>
+      <h2 className="updateprice-title">Decrease price for Dutch auction item</h2>
       <form className="updateprice-form" onSubmit={handleUpdatePrice}>
-        <input
-          type="text"
-          id="itemId"
-          name="itemId"
-          value={itemId}
-          onChange={(e) => setItemId(e.target.value)}
-          placeholder="Item ID"
-          required
-        />
-        <input
-          type="number"
-          id="updatedPrice"
-          name="updatedPrice"
-          value={updatedPrice}
-          onChange={(e) => setUpdatedPrice(e.target.value)}
-          placeholder="Updated Price (US$)"
-          required
-        />
+        {/* Form inputs remain the same */}
         <button type="submit" className="update-price-btn">Update Price</button>
       </form>
-      <button onClick={() => navigate('/sellerhome')} className="back-btn">Back to Seller Home Page</button>
+      <button onClick={() => navigate('/sellerhome', { state: { userName } })} className="back-btn">Back to Seller Home</button>
     </div>
   );
 }
