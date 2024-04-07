@@ -187,7 +187,7 @@ public class AuthorizationImpl implements Authorization {
             return new AuthorizationQueryResult(AuthorizationQueryResultStatus.INVALID_INPUT, "Invalid parameters: userName must not be null"); 
         }
         try (Connection connection = databaseConnection.connect()){
-            String sql = "SELECT FirstName, LastName, StreetName, StreetNumber, City, Country, PostalCode " +
+            String sql = "SELECT UserName, FirstName, LastName, StreetName, StreetNumber, City, Country, PostalCode " +
                          "FROM Users " +
                          "WHERE UserID = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -195,6 +195,7 @@ public class AuthorizationImpl implements Authorization {
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     Map<String, String> userDetails = new HashMap<String,String>();
                     if (resultSet.next()) {
+                        userDetails.put("UserName", resultSet.getString("UserName"));
                         userDetails.put("FirstName", resultSet.getString("FirstName"));
                         userDetails.put("LastName",resultSet.getString("LastName"));
                         userDetails.put("StreetName", resultSet.getString("StreetName"));

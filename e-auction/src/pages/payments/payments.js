@@ -1,36 +1,68 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Header from '../../components/header/header';
 import './payments.css';
 
 function Payments() {
-  const [paymentDetails, setPaymentDetails] = useState({
-    // Dummy data structures for user and payment details
-    // Replace with actual user data fetched from the backend
-    firstName: 'Jane',
-    lastName: 'Doe',
-    streetNumber: '123',
-    streetName: 'Liberty Street',
-    city: 'Freedom City',
-    country: 'Utopia',
-    postalCode: '12345',
-    totalCost: '300.00',
-  });
-
+  const location = useLocation();
+  const userName = location.state.userName;
+  const item = location.state.item
+  const currentPrice = location.state.currentPrice;
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
+  const [userDetails, setUserDetails] = useState(null);
+  const finalShippingPrice = item.finalShippingPrice;
+  const finalCost = currentPrice + finalShippingPrice;
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        const response = await axios.get(`https://your-backend-url.com/getUserId/${userName}`);
+        const userId = response.data.data.userId;
+        const userDetailsResponse = await axios.get(`https://your-backend-url.com/getDetails/${userId}`);
+        const userDetails = userDetailsResponse.data.data;
+        setUserDetails(userDetails);
+      } catch (error) {
+        console.error('Error fetching user details:', error);
+      }
+    };
 
-  // Update payment details state
+    if (userName) {
+      fetchUserDetails();
+    }
+  }, [userName]);
+
+  useEffect(() => {
+    const fetchShippingCost = async () => {
+      try {
+        const response = await axios.get(`https://your-backend-url.com/calculateShippingCost/${item.itemId}`);
+        const shippingCost = response.data.data.shippingCost;
+        setShippingCost(shippingCost);
+      } catch (error) {
+        console.error('Error fetching shipping cost:', error);
+      }
+    };
+
+    fetchShippingCost();
+  }, [item.itemId]);
+
   const handleInputChange = (e) => {
     setPaymentDetails({ ...paymentDetails, [e.target.name]: e.target.value });
   };
 
-  // add the payment submission logic here
-  const submitPayment = (e) => {
+  const submitPayment =async (e) => {
     e.preventDefault();
-    console.log('Payment details submitted:', paymentDetails);
-    // TODO: Integrate with Stripe API for payment processing
-    // TODO: Redirect to the confirmation/receipt page upon successful payment
-    navigate('/confirmation');
+    try {
+      const response = await axios.post(`https://your-api-domain.com/processPayment/${userName}/${item.itemId}`);
+      if(response.data.status = 'OK'){
+        navigate('/confirmation',{state:{userName: userName}});
+      }
+      else{
+        setErrorMessage('Error processing payment:'+response.data.message);
+      }
+    } catch (error) {
+      console.error('Error processing payment:', error);
+    }
+    
   };
 
   return (
@@ -40,12 +72,12 @@ function Payments() {
       <div className="user-details">
         <h2>Winning User Details</h2>
         {/* Render user address details */}
-        <p>{paymentDetails.firstName} {paymentDetails.lastName}</p>
-        <p>{paymentDetails.streetNumber} {paymentDetails.streetName}</p>
-        <p>{paymentDetails.city}</p>
-        <p>{paymentDetails.country}</p>
-        <p>{paymentDetails.postalCode}</p>
-        <p>Total Cost: ${paymentDetails.totalCost}</p>
+        <p>{userDetails.firstName} {userDetails.lastName}</p>
+        <p>{userDetails.streetNumber} {userDetails.streetName}</p>
+        <p>{userDetails.city}</p>
+        <p>{userDetails.country}</p>
+        <p>{userDetails.postalCode}</p>
+        <p>Total Cost: ${finalCost}</p>
       </div>
       <div className="payment-details">
         <h2>Credit Card</h2>
@@ -84,6 +116,7 @@ function Payments() {
           />
           <button type="submit">SUBMIT</button>
         </form>
+        {errorMessage && <div className="error-message">{errorMessage}</div>}
       </div>
       </div>
     </div>
