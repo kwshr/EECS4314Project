@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '../../components/header/header';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './sellerhome.css';
 
 function SellerHome() {
