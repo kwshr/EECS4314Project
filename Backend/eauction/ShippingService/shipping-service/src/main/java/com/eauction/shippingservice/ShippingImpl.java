@@ -56,8 +56,8 @@ public class ShippingImpl implements Shipping{
                 if (resultSet.next()) {
                     Map<String, Object> itemInfo = new HashMap<>();
                     itemInfo.put("ExpeditedShipping", resultSet.getBoolean("ExpeditedShipping"));
-                    itemInfo.put("ExpeditedShippingCost", resultSet.getBigDecimal("ExpeditedShippingCost"));
-                    itemInfo.put("NormalShippingCost", resultSet.getBigDecimal("ShippingCost"));
+                    itemInfo.put("ExpeditedShippingCost", resultSet.getDouble("ExpeditedShippingCost"));
+                    itemInfo.put("NormalShippingCost", resultSet.getDouble("ShippingCost"));
                     return itemInfo;
                 } else {
                     throw new SQLException("Item not found for itemId: " + itemId);

@@ -23,7 +23,7 @@ public class ShippingController {
         this.shippingImpl = shippingImpl;
     }
 
-    @RequestMapping(value="/calculateShippingCost/{itemid}", method=RequestMethod.PUT)
+    @RequestMapping(value="/calculateShippingCost/{itemId}", method=RequestMethod.PUT)
     public ResponseEntity<Map<String,Object>> calculateShippingCost(@PathVariable("itemId") int itemId ) {
         ShippingQueryResult shippingQueryResult = shippingImpl.calculateShippingCost(itemId);
         Map<String,Object> response = new HashMap<String,Object>();
@@ -43,7 +43,7 @@ public class ShippingController {
         return HttpResponseStatus.setResponse(response);
     }
 
-    @RequestMapping(value="/expeditedShipping/{itemId}", method=RequestMethod.GET)
+    @RequestMapping(value="/expeditedShipping/{itemId}", method=RequestMethod.PUT)
     public ResponseEntity<Map<String,Object>> expeditedhipping(@PathVariable("itemId") int itemId) {
         ShippingQueryResult shippingQueryResult = shippingImpl.setExpeditedShipping(itemId);
         Map<String,Object> response = new HashMap<String,Object>();
