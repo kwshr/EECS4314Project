@@ -49,7 +49,7 @@ public class AuctionScheduler {
 
      public Map<Integer, Map<String, Object>> getAllAuctionedItems(){
       OkHttpClient client = new OkHttpClient();
-      String baseuri = "http://localhost:8080/getAuctionedItems";
+      String baseuri = "https://itemcatalogueservice.onrender.com/getAuctionedItems";
       Request request = new Request.Builder().url(baseuri).build();
       try{
           Response response = client.newCall(request).execute();

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Header from '../../components/header/header';
 import './itemsearch.css';
@@ -7,13 +7,14 @@ import './itemsearch.css';
 function ItemSearch() {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
+  const location = useLocation(); 
+  const userName = location.state.userName;
 
   const handleSearch = async (event) => {
     event.preventDefault();
     try {
-      // Replace 'http://localhost:8080' with your backend's actual base URL
       const response = await axios.get(`https://itemcatalogueservice.onrender.com/search/${searchTerm}`);
-      navigate('/displayresults', { state: { items: response.data.data } });
+      navigate('/displayresults', { state: { items: response.data.data, userName: userName } });
     } catch (error) {
       console.error('Error fetching search results:', error);
       // Handle error appropriately (show an error message, etc.)

@@ -17,10 +17,10 @@ function SignIn() {
     password: password
   }
     try{
-      const response = await axios.post(`https://authorizationservice-fm4o.onrender.com/signIn`,formData);
+      const response = await axios.post(`https://authorizationservice-fm4o.onrender.com/signIn/user`,formData);
       const status = response.data.status;
       if(status === 'OK'){
-        navigate('/itemsearch');
+        navigate('/itemsearch',{ state: { userName: userName } });
       }
       else{
         setUserName('');
@@ -39,10 +39,10 @@ function SignIn() {
     password: password
   }
     try{
-      const response = await axios.post(`https://authorizationservice-fm4o.onrender.com/signIn`,formData);
+      const response = await axios.post(`https://authorizationservice-fm4o.onrender.com/signIn/seller`,formData);
       const status = response.data.status;
       if(status === 'OK'){  
-        navigate('/sellerhome');
+        navigate('/sellerhome',{ state: { userName: userName } });
       }
       else{
         setUserName('');

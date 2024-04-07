@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -198,5 +199,44 @@ public class AuctionImpl implements Auction {
             }
         }
     }
+
+        @Override
+        public AuctionQueryResult getAuctionedItemDetails(int itemId) {
+            try (Connection connection = databaseConnection.connect()) {
+                String query = "SELECT * FROM Auctions WHERE ItemID = ?";
+                try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                    preparedStatement.setInt(1, itemId);
+                    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                        if (resultSet.next()) {
+                            int auctionId = resultSet.getInt("AuctionID");
+                            Timestamp startDateTime = resultSet.getTimestamp("StartDateTime");
+                            Timestamp endDateTime = resultSet.getTimestamp("EndDateTime");
+                            double currentPrice = resultSet.getDouble("CurrentPrice");
+                            String auctionStatus = resultSet.getString("AuctionStatus");
+                            String auctionType = resultSet.getString("AuctionType");
+                            int winningBidderId = resultSet.getInt("WinningBidder");
+                            Map<String, Object> auctionDetails = new HashMap<>();
+                            auctionDetails.put("AuctionID", auctionId);
+                            auctionDetails.put("ItemID", itemId);
+                            auctionDetails.put("StartDateTime", startDateTime);
+                            auctionDetails.put("EndDateTime", endDateTime);
+                            auctionDetails.put("CurrentPrice", currentPrice);
+                            auctionDetails.put("AuctionStatus", auctionStatus);
+                            auctionDetails.put("AuctionType", auctionType);
+                            auctionDetails.put("WinningBidder", winningBidderId);
+        
+                            AuctionQueryResult result = new AuctionQueryResult(AuctionQueryResultStatus.SUCCESS, "Auction details retrieved successfully");
+                            result.setData(auctionDetails);
+                            return result;
+                        } else {
+                            return new AuctionQueryResult(AuctionQueryResultStatus.ERROR, "No auction found for item with ID: " + itemId);
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                return new AuctionQueryResult(AuctionQueryResultStatus.ERROR, "Error retrieving auction details for item with ID: " + itemId);
+            }
+        }
+        
 }
     

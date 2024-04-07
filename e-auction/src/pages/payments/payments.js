@@ -15,11 +15,6 @@ function Payments() {
     country: 'Utopia',
     postalCode: '12345',
     totalCost: '300.00',
-    // Payment details structure
-    cardNumber: '',
-    cardName: '',
-    expiryDate: '',
-    securityCode: ''
   });
 
   const navigate = useNavigate();
