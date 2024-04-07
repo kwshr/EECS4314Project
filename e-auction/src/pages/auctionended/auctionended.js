@@ -3,25 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/header';
 import './auctionended.css';
 
-// Dummy data
-const auctionData = {
-  item: {
-    id: 1,
-    name: 'Rolex GMT Master II',
-    image: require('../../components/assets/rolex.jpeg'),
-    description: 'A rare and exquisite Rolex GMT Master II from the late 90s for wristwatch connoisseurs',
-    expeditedShippingCost: '45.00'
-  },
-  highestBidder: {
-    username: 'Dani',
-    winningPrice: '200000'
-  },
-  userIsWinner: true // use actual user and auction data to obtain this value
-};
 
 function AuctionEnded() {
   const [expeditedShipping, setExpeditedShipping] = useState(false);
   const navigate = useNavigate();
+  const userName = location.state.userName;
 
   // Replace with actual logic to handle payments later
   const handlePayment = () => {
