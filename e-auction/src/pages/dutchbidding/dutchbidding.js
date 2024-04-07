@@ -8,6 +8,7 @@ function DutchBidding() {
   const navigate = useNavigate();
   const location = useLocation();
   const [currentPrice, setCurrentPrice] = useState('Fetching...');
+  const userName = location.state.userName;
 
   // Access item details and user info from the location state
   const item = location.state?.item || {
@@ -15,11 +16,6 @@ function DutchBidding() {
     itemName: 'No Item Selected',
     itemDescription: 'N/A',
     shippingCost: '0.00'
-  };
-
-  // Assuming user info is also passed in location state
-  const user = location.state?.user || {
-    UserID: null
   };
 
   useEffect(() => {
@@ -40,9 +36,9 @@ function DutchBidding() {
   }, [item.itemId]);
 
   const buyNow = () => {
-    console.log('Buy Now clicked for item:', item.itemId, 'by user:', user.UserID);
+    console.log('Buy Now clicked for item:', item.itemId, 'by user:', userName);
     // Navigate to /auctionended and pass item and user state forward
-    navigate('/auctionended', { state: { item: item, user: user } });
+    navigate('/auctionended', { state: { item: item, userName: userName } });
   };
 
   return (

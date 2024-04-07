@@ -18,8 +18,8 @@ function formatDuration(duration) {
 function DisplayResults() {
   const navigate = useNavigate();
   const location = useLocation();
-  // Explicitly access the items passed through the location state from the ItemSearch page
   const items = location.state?.items || [];
+  const userName = location.state.userName;
   const [selectedItemId, setSelectedItemId] = useState(null);
   const [itemsWithRemainingTime, setItemsWithRemainingTime] = useState([]);
 
@@ -55,7 +55,7 @@ function DisplayResults() {
     const selectedItem = itemsWithRemainingTime.find(item => item.itemId === selectedItemId);
     if (selectedItem) {
       const page = selectedItem.auctionType.toLowerCase() === 'dutch' ? '/dutchbidding' : '/forwardbidding';
-      navigate(page, { state: { item: selectedItem } });
+      navigate(page, { state: { item: selectedItem, userName: userName } });
     }
   };
 
