@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import Header from '../../components/header/header';
 import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './sellitem.css';
 
 function SellItem() {
   const navigate = useNavigate();
-  const location = useLocation(); 
-  const userName = location.state.userName;
-  
+  const location = useLocation();
+  const userName = location.state?.userName;
+
   const [itemName, setItemName] = useState('');
   const [itemDescription, setItemDescription] = useState('');
   const [auctionType, setAuctionType] = useState('');
@@ -18,26 +19,42 @@ function SellItem() {
   const [reservedPrice, setReservedPrice] = useState('');
   const [dutchEndTimer, setDutchEndTimer] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const success = true; //replace with actual value after backend integration
 
-    if (success) {
-      alert('Item has been successfully uploaded for auction! Let us go back to the seller home page!'); //can make a separate page returning the Item ID later.
+    try {
+      // Fetch the seller ID
+      const sellerResponse = await axios.get(`https://authorizationservice-fm4o.onrender.com/getSellerId/${userName}`);
+      const sellerId = sellerResponse.data.data.SellerID;
 
-      setItemName('');
-      setItemDescription('');
-      setAuctionType('');
-      setInitialPrice('');
-      setShippingTime('');
-      setShippingCost('');
-      setExpeditedShippingCost('');
-      setReservedPrice('');
-      setDutchEndTimer('');
+      // Construct item data payload
+      const itemData = {
+        sellerId,
+        itemName,
+        itemDescription,
+        auctionType,
+        initialPrice: Number(initialPrice),
+        shippingTime: Number(shippingTime),
+        shippingCost: Number(shippingCost),
+        expeditedShippingCost: Number(expeditedShippingCost),
+        ...(auctionType.toLowerCase() === 'dutch' && {
+          reservedPrice: Number(reservedPrice),
+          dutchEndTimer: Number(dutchEndTimer),
+        }),
+      };
 
-      navigate('/sellerhome');
-    } else {
-      alert('Failed to upload the item. Please try again.'); //can be more specific later
+      // Post the item data
+      const addItemResponse = await axios.post('/addItem', itemData);
+
+      if (addItemResponse.data.status === 'OK') {
+        alert('Item has been successfully uploaded for auction!');
+        navigate('/sellerhome', { state: { userName } });
+      } else {
+        alert('Failed to upload the item. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error during the item upload:', error);
+      alert('Failed to upload the item. Please try again.');
     }
   };
 
@@ -65,7 +82,7 @@ function SellItem() {
         />
         <select id="auctionType" name="auctionType" value={auctionType}
           onChange={(e) => setAuctionType(e.target.value)} required>
-          <option value="">Auction Type</option>
+          <option value="">Select Auction Type</option>
           <option value="forward">Forward</option>
           <option value="dutch">Dutch</option>
         </select>
@@ -77,11 +94,29 @@ function SellItem() {
           onChange={(e) => setShippingCost(e.target.value)} placeholder="Shipping Cost (US$)" required />
         <input type="number" id="expeditedShippingCost" name="expeditedShippingCost" value={expeditedShippingCost}
           onChange={(e) => setExpeditedShippingCost(e.target.value)} placeholder="Expedited Shipping Cost (US$)" required />
-        <input type="number" id="reservedPrice" name="reservedPrice" value={reservedPrice}
-          onChange={(e) => setReservedPrice(e.target.value)}placeholder="Item Reserved Price (US$)" required />
-        <input type="number" id="dutchEndTimer" name="dutchEndTimer" value={dutchEndTimer}
-          onChange={(e) => setDutchEndTimer(e.target.value)} placeholder="Dutch End Timer (seconds)" required />
-        <button type="submit" className="upload-btn">Upload</button>
+        {auctionType.toLowerCase() === 'dutch' && (
+          <>
+            <input
+              type="number"
+              id="reservedPrice"
+              name="reservedPrice"
+              value={reservedPrice}
+              onChange={(e) => setReservedPrice(e.target.value)}
+              placeholder="Reserved Price (US$)"
+              required
+            />
+            <input
+              type="number"
+              id="dutchEndTimer"
+              name="dutchEndTimer"
+              value={dutchEndTimer}
+              onChange={(e) => setDutchEndTimer(e.target.value)}
+              placeholder="Dutch Auction End Timer (seconds)"
+              required
+            />
+          </>
+        )}
+        <button type="submit" className="upload-btn">Upload Item</button>
       </form>
     </div>
   );

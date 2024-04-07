@@ -56,7 +56,7 @@ function AuctionEnded() {
       
       if (expeditedShipping) {
         try {
-          await axios.post(`https://e-auction-shipping.onrender.com/expeditedShipping/${item.itemId}`);
+          await axios.put(`https://e-auction-shipping.onrender.com/expeditedShipping/${item.itemId}`);
         } catch (error) {
           console.error('Error updating expedited shipping:', error);
         }
@@ -64,6 +64,7 @@ function AuctionEnded() {
       }
       try {
         await axios.put(`https://e-auction-shipping.onrender.com/calculateShippingCost/${item.itemId}`);
+        
         navigate('/payments', { state: { item: item, userName: userName, currentPrice: winningBidder.winningPrice } });
       } catch (error) {
         console.error('Error calculating shipment cost:', error);
@@ -74,6 +75,10 @@ function AuctionEnded() {
       // console.error('Only the winning user can pay for the item.');
       navigate('/itemsearch', { state: { userName: userName} });
     }
+  };
+
+  const handleBackToItemSearch = () => {
+    navigate('/itemsearch', { state: { userName: userName } });
   };
 
   if (loading) {
@@ -108,6 +113,7 @@ function AuctionEnded() {
           {/* )} */}
         </div>
       </div>
+      <button onClick={handleBackToItemSearch} className="back-to-search-btn">Back to Item Search</button>
     </div>
   );
 }
