@@ -26,13 +26,17 @@ function DisplayResults() {
   useEffect(() => {
     const fetchRemainingTimes = async () => {
       const fetchedItems = await Promise.all(items.map(async (item) => {
-        try {
-          const response = await axios.get(`https://auctionservice.onrender.com/getRemainingTime/${item.itemId}`);
-          const formattedTime = formatDuration(response.data.data || 'N/A');
-          return { ...item, remainingTime: formattedTime };
-        } catch (error) {
-          console.error('Error fetching remaining time for item:', error);
-          return { ...item, remainingTime: 'Unavailable' };
+        if (item.auctionType.toLowerCase() === 'dutch') {
+          return { ...item, remainingTime: 'NOW' };
+        } else {
+          try {
+            const response = await axios.get(`https://auctionservice.onrender.com/getRemainingTime/${item.itemId}`);
+            const formattedTime = formatDuration(response.data.data || 'N/A');
+            return { ...item, remainingTime: formattedTime };
+          } catch (error) {
+            console.error('Error fetching remaining time for item:', error);
+            return { ...item, remainingTime: 'Unavailable' };
+          }
         }
       }));
       setItemsWithRemainingTime(fetchedItems);
