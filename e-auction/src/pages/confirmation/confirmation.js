@@ -1,30 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Header from '../../components/header/header'; 
-import axios from 'axios'; 
 import './confirmation.css';
 
 function Confirmation() {
   const navigate = useNavigate();
-  const location = useLocation(); 
-  const userName = location.state.userName;
-  const [receiptInfo, setReceiptInfo] = useState({});
-  const [shippingDays, setShippingDays] = useState('');
-  useEffect(() => {
-    const fetchReceiptInfo = async () => {
-      try {
-        const itemId = 'exampleItemId';
-        const response = await axios.get(`https://orderprocessingservice.onrender.com/generateReceipt/${userName}/${itemId}`);
-        setReceiptInfo(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchReceiptInfo();
-  }, []);
+  const location = useLocation();
+
+  // Extracting data passed through location state
+  const { userDetails, finalCost, item } = location.state;
 
   const handleBackToHome = () => {
-    navigate('/home'); // Navigate back to the home page for now
+    navigate('/home');
   };
 
   return (
@@ -33,15 +20,20 @@ function Confirmation() {
       <div className="contents">
         <div className="receipt-section">
           <h2>Receipt</h2>
-          {/* Display receipt information */}
-          {Object.keys(receiptInfo).map((key) => (
-            <p key={key} data-label={key}><span>{receiptInfo[key]}</span></p>
-          ))}
+          <p data-label="First Name:"><span>{userDetails.FirstName}</span></p>
+          <p data-label="Last Name:"><span>{userDetails.LastName}</span></p>
+          <p data-label="Street Number:"><span>{userDetails.StreetNumber}</span></p>
+          <p data-label="Street Name:"><span>{userDetails.StreetName}</span></p>
+          <p data-label="City:"><span>{userDetails.City}</span></p>
+          <p data-label="Country:"><span>{userDetails.Country}</span></p>
+          <p data-label="Postal Code:"><span>{userDetails.PostalCode}</span></p>
+          <p data-label="Total Paid:" className="total-paid"><span>${finalCost}</span></p>
+          <p data-label="Item ID:"><span>{item.itemId}</span></p>
         </div>
+        {/* Shipping Section will be adjusted in the next step */}
         <div className="shipping-section">
           <h2>Shipping Details</h2>
-          {/* Display shipping details */}
-          <p><span>The Item will be shipped in {shippingDays} days.</span></p>
+          {/* Shipping details will be displayed here after fetching from backend */}
           <div className="back-to-home-button-container">
             <button onClick={handleBackToHome}>BACK TO MAIN PAGE</button>
           </div>
