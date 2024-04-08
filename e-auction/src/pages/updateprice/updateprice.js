@@ -56,7 +56,24 @@ function UpdatePrice() {
       <Header />
       <h2 className="updateprice-title">Decrease price for Dutch auction item</h2>
       <form className="updateprice-form" onSubmit={handleUpdatePrice}>
-        {/* Form inputs remain the same */}
+      <input
+          type="text"
+          id="itemId"
+          name="itemId"
+          value={itemId}
+          onChange={(e) => setItemId(e.target.value)}
+          placeholder="Item ID"
+          required
+        />
+        <input
+          type="number"
+          id="updatedPrice"
+          name="updatedPrice"
+          value={updatedPrice}
+          onChange={(e) => setUpdatedPrice(e.target.value)}
+          placeholder="Updated Price (US$)"
+          required
+        />
         <button type="submit" className="update-price-btn">Update Price</button>
       </form>
       <button onClick={() => navigate('/sellerhome', { state: { userName } })} className="back-btn">Back to Seller Home</button>
