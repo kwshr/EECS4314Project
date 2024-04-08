@@ -52,7 +52,7 @@ function ForwardBidding() {
     event.preventDefault();
     try {
       // Attempt to place a bid
-      const bidResponse = await axios.post(`https://biddingservice.onrender.com/${userName}/${item.itemId}/${bidAmount}`);
+      const bidResponse = await axios.post(`https://biddingservice.onrender.com/placeBid/${userName}/${item.itemId}/${bidAmount}`);
       if (bidResponse.data.status === 'OK') {
         alert('Bid successful!');
         setBidAmount('');
