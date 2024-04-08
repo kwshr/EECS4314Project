@@ -25,10 +25,10 @@ function SignIn() {
       else{
         setUserName('');
         setPassword('');
-        setErrorMessage('An error occured while logging in: '+response.data.message);
+        setErrorMessage('An error occured while logging in. Please try again');
       }
     } catch(error){
-      setErrorMessage('An error occured while logging in: '+error);
+      setErrorMessage('An error occured while logging in. Please try again');
     }
   };
 
