@@ -20,19 +20,19 @@ public class SellerImpl implements Seller {
     }
 
     @Override
-    public SellerQueryResult addSellItems(Item item) {
+    public SellerQueryResult addSellItems(Item item, int sellerId) {
         if(item.getAuctionType().equalsIgnoreCase("forward")){
-            return addForwardItem(item);
+            return addForwardItem(item, sellerId);
         }
         else if(item.getAuctionType().equalsIgnoreCase("dutch")){
-            return addDutchItem(item);
+            return addDutchItem(item, sellerId);
         }
         else{
             return new SellerQueryResult(SellerServiceQueryStatus.INVALID_INPUT, "Auction Type can only be forward or dutch. Please, try again!");
         }
     }
 
-    private SellerQueryResult addForwardItem(Item item){
+    private SellerQueryResult addForwardItem(Item item, int sellerId){
         String itemName = item.getItemName();
         String itemDescription = item.getItemDescription();
         String auctionType = item.getAuctionType();
@@ -41,7 +41,6 @@ public class SellerImpl implements Seller {
         double shippingCost = item.getShippingCost();
         double expeditedShippingCost = item.getExpeditedShippingCost();
         double finalShippingCost = item.getFinalShippingCost();
-        int sellerId = item.getSellerId();
 
         if(itemName == null || itemDescription == null || auctionType == null || itemName == "" || itemDescription == "" || auctionType == "" ||
         price <= 0 || shippingTime <= 0 || shippingCost <= 0 || expeditedShippingCost <= 0 ||
@@ -86,7 +85,7 @@ public class SellerImpl implements Seller {
         }
     }
 
-    private SellerQueryResult addDutchItem(Item item){
+    private SellerQueryResult addDutchItem(Item item, int sellerId){
         String itemName = item.getItemName();
         String itemDescription = item.getItemDescription();
         String auctionType = item.getAuctionType();
@@ -101,7 +100,6 @@ public class SellerImpl implements Seller {
         int minutes = dutchEndTimer.toLocalTime().getMinute();
         int seconds = dutchEndTimer.toLocalTime().getSecond();
         long totalMilliseconds = (hours * 60 * 60 + minutes * 60 + seconds) * 1000;
-        int sellerId = item.getSellerId();
 
         if(itemName == null || itemDescription == null || auctionType == null || itemName == "" || itemDescription == "" || auctionType == "" ||
         price <= 0 || shippingTime <= 0 || shippingCost <= 0 || expeditedShippingCost <= 0 ||

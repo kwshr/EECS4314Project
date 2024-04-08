@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,10 +33,10 @@ public class SellerController {
         this.sellerImpl = sellerImpl;
     }
     
-    @RequestMapping(value="/addItem", method=RequestMethod.POST)
-    public ResponseEntity<Map<String,Object>> addSellItems(@RequestBody Item item) throws JsonProcessingException {
+    @RequestMapping(value="/addItem/{sellerId}", method=RequestMethod.POST)
+    public ResponseEntity<Map<String,Object>> addSellItems(@RequestBody Item item, @PathVariable("sellerId") int sellerId) throws JsonProcessingException {
         Map<String,Object> response = new HashMap<String,Object>();
-        SellerQueryResult sellerQueryResult = sellerImpl.addSellItems(item);
+        SellerQueryResult sellerQueryResult = sellerImpl.addSellItems(item,sellerId);
         if(sellerQueryResult.getSellerServiceQueryStatus() == SellerServiceQueryStatus.SUCCESS){
             int itemId = (Integer) sellerQueryResult.getData();
             String baseuri = "https://auctionservice.onrender.com/createAuction";
