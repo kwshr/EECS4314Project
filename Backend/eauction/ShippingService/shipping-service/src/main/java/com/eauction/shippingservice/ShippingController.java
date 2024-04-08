@@ -33,7 +33,7 @@ public class ShippingController {
         return HttpResponseStatus.setResponse(response);
     }
 
-    @RequestMapping(value="/displayShippingDetails/{itemid}", method=RequestMethod.GET)
+    @RequestMapping(value="/displayShippingDetails/{itemId}", method=RequestMethod.GET)
     public ResponseEntity<Map<String,Object>> displayShippingDetails(@PathVariable("itemId") int itemId) {
         ShippingQueryResult shippingQueryResult = shippingImpl.displayShippingDetails(itemId);
         Map<String,Object> response = new HashMap<String,Object>();
