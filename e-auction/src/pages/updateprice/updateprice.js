@@ -16,8 +16,8 @@ function UpdatePrice() {
   // Get sellerId when the component mounts or when userName changes
   useEffect(() => {
     const fetchSellerId = async () => {
-      const response = await axios.get(`/getSellerId/${userName}`);
-      setSellerId(response.data.sellerId);
+      const response = await axios.get(`https://authorizationservice-fm4o.onrender.com/getSellerId/${userName}`);
+      setSellerId(response.data.data.SellerID);
     };
     fetchSellerId();
   }, [userName]);
@@ -33,7 +33,7 @@ function UpdatePrice() {
     // }
 
     try {
-      const response = await axios.put('/updatePrice', {
+      const response = await axios.put('https://sellerservice.onrender.com/updatePrice', {
         itemId,
         updatedPrice: Number(updatedPrice),
         sellerId
