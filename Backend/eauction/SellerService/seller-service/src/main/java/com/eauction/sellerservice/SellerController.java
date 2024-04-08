@@ -19,7 +19,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-@CrossOrigin(origins = "http://localhost:3000/*")
+@CrossOrigin(origins = "https://kwshr.github.io/*")
 @RestController
 @RequestMapping
 public class SellerController {
