@@ -44,7 +44,7 @@ function SellItem() {
       };
 
       // Post the item data
-      const addItemResponse = await axios.post('/addItem', itemData);
+      const addItemResponse = await axios.post(`https://sellerservice.onrender.com/addItem/${sellerId}`, itemData);
 
       if (addItemResponse.data.status === 'OK') {
         alert('Item has been successfully uploaded for auction!');
