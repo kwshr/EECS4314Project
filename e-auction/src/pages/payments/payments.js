@@ -21,17 +21,31 @@ function Payments() {
   const [shippingCost, setShippingCost] = useState(0);
 
   const navigate = useNavigate();
-  const [userDetails, setUserDetails] = useState(null);
-  const finalShippingPrice = item.finalShippingPrice;
-  const finalCost = currentPrice + finalShippingPrice;
+  const [userDetails, setUserDetails] = useState({
+    FirstName: '',
+    LastName: '',
+    StreetNumber: '',
+    StreetName: '',
+    City: '',
+    Country: '',
+    PostalCode: '',
+  });
+  
+  const finalCost = currentPrice + shippingCost;
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const response = await axios.get(`https://your-backend-url.com/getUserId/${userName}`);
-        const userId = response.data.data.userId;
-        const userDetailsResponse = await axios.get(`https://your-backend-url.com/getDetails/${userId}`);
-        const userDetails = userDetailsResponse.data.data;
-        setUserDetails(userDetails);
+        const response = await axios.get(`https://authorizationservice-fm4o.onrender.com/getUserId/${userName}`);
+        if(response.data.status === 'OK') {
+          const userId = response.data.data.UserId;
+          const userDetailsResponse = await axios.get(`https://authorizationservice-fm4o.onrender.com/getDetails/${userId}`);
+          if(userDetailsResponse.data.status === 'OK'){
+            const userDetails = userDetailsResponse.data.data;
+            setUserDetails(userDetails);
+          }
+        }
+        
+        
       } catch (error) {
         console.error('Error fetching user details:', error);
       }
@@ -45,9 +59,11 @@ function Payments() {
   useEffect(() => {
     const fetchShippingCost = async () => {
       try {
-        const response = await axios.get(`https://your-backend-url.com/calculateShippingCost/${item.itemId}`);
-        const shippingCost = response.data.data.shippingCost;
-        setShippingCost(shippingCost);
+        const response = await axios.put(`https://e-auction-shipping.onrender.com/calculateShippingCost/${item.itemId}`);
+        if(response.data.status === 'OK') {
+          const shippingCost = response.data.data;
+          setShippingCost(shippingCost);
+        }
       } catch (error) {
         console.error('Error fetching shipping cost:', error);
       }
@@ -62,17 +78,25 @@ function Payments() {
 
   const submitPayment =async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post(`https://your-api-domain.com/processPayment/${userName}/${item.itemId}`);
-      if(response.data.status = 'OK'){
-        navigate('/confirmation',{state:{userName: userName}});
+    navigate('/confirmation', {
+      state: {
+        userName: userName,
+        userDetails: userDetails,
+        item: item,
+        finalCost: finalCost
       }
-      else{
-        setErrorMessage('Error processing payment:'+response.data.message);
-      }
-    } catch (error) {
-      console.error('Error processing payment:', error);
-    }
+    });
+    // try {
+    //   const response = await axios.post(`https://paymentservice-tbm3.onrender.com/processPayment/${userName}/${item.itemId}`);
+    //   if(response.data.status === 'OK'){
+    //     navigate('/confirmation',{state:{userName: userName}});
+    //   }
+    //   else{
+    //     setErrorMessage('Error processing payment:'+response.data.message);
+    //   }
+    // } catch (error) {
+    //   console.error('Error processing payment:', error);
+    // }
     
   };
 
@@ -83,11 +107,11 @@ function Payments() {
       <div className="user-details">
         <h2>Winning User Details</h2>
         {/* Render user address details */}
-        <p>{userDetails.firstName} {userDetails.lastName}</p>
-        <p>{userDetails.streetNumber} {userDetails.streetName}</p>
-        <p>{userDetails.city}</p>
-        <p>{userDetails.country}</p>
-        <p>{userDetails.postalCode}</p>
+        <p>{userDetails.FirstName} {userDetails.LastName}</p>
+        <p>{userDetails.StreetNumber} {userDetails.StreetName}</p>
+        <p>{userDetails.City}</p>
+        <p>{userDetails.Country}</p>
+        <p>{userDetails.PostalCode}</p>
         <p>Total Cost: ${finalCost}</p>
       </div>
       <div className="payment-details">
