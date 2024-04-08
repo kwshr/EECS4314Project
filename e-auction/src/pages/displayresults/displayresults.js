@@ -48,7 +48,7 @@ function DisplayResults() {
   }, [items]);
 
   const handleBackToSearch = () => {
-    navigate('/itemsearch');
+    navigate('/itemsearch', { state: { userName: userName } });
   };
 
   const handleBid = () => {

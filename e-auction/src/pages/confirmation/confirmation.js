@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
 import Header from '../../components/header/header'; 
 import './confirmation.css';
 
@@ -8,10 +9,28 @@ function Confirmation() {
   const location = useLocation();
 
   // Extracting data passed through location state
-  const { userDetails, finalCost, item } = location.state;
+  const { userName, userDetails, finalCost, item } = location.state;
+  const [shippingDays, setShippingDays] = useState('');
+
+  useEffect(() => {
+    // Fetch shipping details
+    const fetchShippingDetails = async () => {
+      try {
+        const response = await axios.get(`https://e-auction-shipping.onrender.com/displayShippingDetails/${item.itemId}`);
+        if (response.data.data) {
+          setShippingDays(response.data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching shipping details:', error);
+        setShippingDays('Unavailable');
+      }
+    };
+
+    fetchShippingDetails();
+  }, [item.itemId]);
 
   const handleBackToHome = () => {
-    navigate('/home');
+    navigate('/home', { state: { userName: userName } });
   };
 
   return (
@@ -30,10 +49,9 @@ function Confirmation() {
           <p data-label="Total Paid:" className="total-paid"><span>${finalCost}</span></p>
           <p data-label="Item ID:"><span>{item.itemId}</span></p>
         </div>
-        {/* Shipping Section will be adjusted in the next step */}
         <div className="shipping-section">
           <h2>Shipping Details</h2>
-          {/* Shipping details will be displayed here after fetching from backend */}
+          <p>The Item will be shipped in {shippingDays} days.</p>
           <div className="back-to-home-button-container">
             <button onClick={handleBackToHome}>BACK TO MAIN PAGE</button>
           </div>
