@@ -30,7 +30,9 @@ public class ShippingImpl implements Shipping{
             Map<String, Object> itemInfo = getItemInformation(connection, itemId);
             double shippingCost = calculateShippingCost(itemInfo);
             updateFinalShippingCost(connection, itemId, shippingCost);
-            return new ShippingQueryResult(ShippingQueryResultStatus.SUCCESS, "Shipping cost calculated: " + shippingCost);
+            ShippingQueryResult shippingQueryResult = new ShippingQueryResult(ShippingQueryResultStatus.SUCCESS, "Shipping cost calculated: " + shippingCost);
+            shippingQueryResult.setData(shippingCost);
+            return shippingQueryResult;
         } catch (SQLException e) {
             return new ShippingQueryResult(ShippingQueryResultStatus.ERROR, "Error calculating or updating shipping cost");
         }
@@ -56,8 +58,8 @@ public class ShippingImpl implements Shipping{
                 if (resultSet.next()) {
                     Map<String, Object> itemInfo = new HashMap<>();
                     itemInfo.put("ExpeditedShipping", resultSet.getBoolean("ExpeditedShipping"));
-                    itemInfo.put("ExpeditedShippingCost", resultSet.getBigDecimal("ExpeditedShippingCost"));
-                    itemInfo.put("NormalShippingCost", resultSet.getBigDecimal("ShippingCost"));
+                    itemInfo.put("ExpeditedShippingCost", resultSet.getDouble("ExpeditedShippingCost"));
+                    itemInfo.put("NormalShippingCost", resultSet.getDouble("ShippingCost"));
                     return itemInfo;
                 } else {
                     throw new SQLException("Item not found for itemId: " + itemId);
