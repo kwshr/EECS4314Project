@@ -1,43 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../../components/header/header';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import './updateprice.css';
 
 function UpdatePrice() {
   const navigate = useNavigate();
   const location = useLocation();
-  const userName = location.state.userName;
-  const [sellerId, setSellerId] = useState('');
+  const userName = location.state?.userName; // Get userName passed from previous page
   const [itemId, setItemId] = useState('');
   const [updatedPrice, setUpdatedPrice] = useState('');
-  const [currentPrice, setCurrentPrice] = useState(); // Add state to hold the current price
 
-  // Get sellerId when the component mounts or when userName changes
   useEffect(() => {
-    const fetchSellerId = async () => {
-      const response = await axios.get(`https://authorizationservice-fm4o.onrender.com/getSellerId/${userName}`);
-      setSellerId(response.data.data.SellerID);
-    };
-    fetchSellerId();
-  }, [userName]);
+    // If userName is not passed, redirect back to the home or login page
+    if (!userName) {
+      navigate('/'); // or '/login' or any appropriate route
+    }
+  }, [userName, navigate]);
 
   const handleUpdatePrice = async (event) => {
     event.preventDefault();
-    // You would want to get the current price of the item first
-    // and compare to make sure the updated price is less.
-    // Here's a pseudocode placeholder for that logic:
-    // if (updatedPrice >= currentPrice) {
-    //   alert('Updated price must be less than the current price.');
-    //   return;
-    // }
+
+    const payload = {
+      itemId: parseInt(itemId),
+      newPrice: parseFloat(updatedPrice),
+    };
 
     try {
-      const response = await axios.put('https://sellerservice.onrender.com/updatePrice', {
-        itemId,
-        updatedPrice: Number(updatedPrice),
-        sellerId
-      });
+      const response = await axios.put('https://sellerservice.onrender.com/updatePrice', payload);
       if (response.data.status === 'OK') {
         alert('The price for the given Dutch auction item has been successfully updated.');
         setItemId('');
@@ -56,7 +46,7 @@ function UpdatePrice() {
       <Header />
       <h2 className="updateprice-title">Decrease price for Dutch auction item</h2>
       <form className="updateprice-form" onSubmit={handleUpdatePrice}>
-      <input
+        <input
           type="text"
           id="itemId"
           name="itemId"
@@ -76,7 +66,9 @@ function UpdatePrice() {
         />
         <button type="submit" className="update-price-btn">Update Price</button>
       </form>
-      <button onClick={() => navigate('/sellerhome', { state: { userName } })} className="back-btn">Back to Seller Home</button>
+      <button onClick={() => navigate('/sellerhome', { state: { userName } })} className="back-btn">
+        Back to Seller Home
+      </button>
     </div>
   );
 }

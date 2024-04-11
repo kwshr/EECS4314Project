@@ -29,11 +29,10 @@ function SellItem() {
 
       // Construct item data payload
       const itemData = {
-        sellerId,
         itemName,
         itemDescription,
         auctionType,
-        initialPrice: Number(initialPrice),
+        price: Number(initialPrice),
         shippingTime: Number(shippingTime),
         shippingCost: Number(shippingCost),
         expeditedShippingCost: Number(expeditedShippingCost),
