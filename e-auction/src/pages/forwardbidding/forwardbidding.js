@@ -20,6 +20,7 @@ function ForwardBidding() {
       // Fetch auctioned item details
       const response = await axios.get(`https://auctionservice.onrender.com/getAuctionedItemDetails/${item.itemId}`);
       setCurrentPrice(response.data.data.CurrentPrice);
+      const auctionStatus = response.data.data.AuctionStatus;
       if(response.data.status ==='OK'){
       const winningBidderId = response.data.data.WinningBidder;
       const userDetailsResponse = await axios.get(
@@ -31,9 +32,9 @@ function ForwardBidding() {
       const timeResponse = await axios.get(`https://auctionservice.onrender.com/getRemainingTime/${item.itemId}`);
       const formattedTime = formatDuration(timeResponse.data.data);
       setRemainingTime(formattedTime);
-
+    
       // Check if auction ended based on remaining time and navigate
-      if (formattedTime === 'Auction Ended') {
+      if (auctionStatus === 'Ended') {
         navigate('/auctionended', { state: { item, userName } });
       }
 

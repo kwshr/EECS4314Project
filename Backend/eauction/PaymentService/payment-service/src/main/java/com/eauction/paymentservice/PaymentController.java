@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin(origins = "https://kwshr.github.io/*")
+@CrossOrigin(origins = {"https://kwshr.github.io/*","http://localhost:3000/*" })
 @RestController
 @RequestMapping
 public class PaymentController{

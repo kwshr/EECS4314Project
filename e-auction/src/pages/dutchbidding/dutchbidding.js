@@ -35,10 +35,34 @@ function DutchBidding() {
     }
   }, [item.itemId]);
 
-  const buyNow = () => {
+  const buyNow = () => async()=>{
     console.log('Buy Now clicked for item:', item.itemId, 'by user:', userName);
-    // Navigate to /auctionended and pass item and user state forward
-    navigate('/auctionended', { state: { item: item, userName: userName } });
+    try{
+      const response3 = await axios.get(`https://authorizationservice-fm4o.onrender.com/getUserId/${userName}`);
+      if(response3.data.status =='OK'){
+        const userId = response3.data.data;
+        const response2 = await axios.put(`https://auctionservice.onrender.com/endAuction/${item.itemId}/${userId}`);
+        if(response2.data.status =='OK'){
+          const response = await axios.put(`https://auctionservice.onrender.com/endAuction/${item.itemId}`)
+          if(response.data.status = 'OK'){
+            navigate('/auctionended', { state: { item: item, userName: userName } });
+          }
+          else{
+            alert("Ending Auction failed!");
+          }
+        }
+        else{
+          alert("Ending Auction failed!");
+        }
+      }
+      else{
+        alert("Ending Auction failed!");
+      }
+      }
+    catch(error){
+      alert("Ending Auction failed!");
+    }
+   
   };
 
   return (

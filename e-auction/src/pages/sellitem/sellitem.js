@@ -43,7 +43,7 @@ function SellItem() {
       };
 
       // Post the item data
-      const addItemResponse = await axios.post(`https://sellerservice.onrender.com/${sellerId}`, itemData);
+      const addItemResponse = await axios.post(`https://sellerservice.onrender.com/addItem/${sellerId}`, itemData);
 
       if (addItemResponse.data.status === 'OK') {
         const itemId = addItemResponse.data.data;

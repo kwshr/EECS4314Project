@@ -7,6 +7,7 @@ import './confirmation.css';
 function Confirmation() {
   const navigate = useNavigate();
   const location = useLocation();
+  const winningBidder = location.state.winningBidder;
 
   // Extracting data passed through location state
   const { userName, userDetails, finalCost, item } = location.state;
