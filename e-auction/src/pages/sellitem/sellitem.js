@@ -29,11 +29,10 @@ function SellItem() {
 
       // Construct item data payload
       const itemData = {
-        sellerId,
         itemName,
         itemDescription,
         auctionType,
-        initialPrice: Number(initialPrice),
+        price: Number(initialPrice),
         shippingTime: Number(shippingTime),
         shippingCost: Number(shippingCost),
         expeditedShippingCost: Number(expeditedShippingCost),
@@ -44,10 +43,11 @@ function SellItem() {
       };
 
       // Post the item data
-      const addItemResponse = await axios.post(`https://sellerservice.onrender.com/addItem/${sellerId}`, itemData);
+      const addItemResponse = await axios.post(`https://sellerservice.onrender.com/${sellerId}`, itemData);
 
       if (addItemResponse.data.status === 'OK') {
-        alert('Item has been successfully uploaded for auction!');
+        const itemId = addItemResponse.data.data;
+        alert('Item has been successfully uploaded for auction! Please preserve the itemId for this item: '+itemId);
         navigate('/sellerhome', { state: { userName } });
       } else {
         alert('Failed to upload the item. Please try again.');

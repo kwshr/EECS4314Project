@@ -40,11 +40,10 @@ public class SellerImpl implements Seller {
         int shippingTime = item.getShippingTime();
         double shippingCost = item.getShippingCost();
         double expeditedShippingCost = item.getExpeditedShippingCost();
-        double finalShippingCost = item.getFinalShippingCost();
+        double finalShippingCost = 0;
 
         if(itemName == null || itemDescription == null || auctionType == null || itemName == "" || itemDescription == "" || auctionType == "" ||
-        price <= 0 || shippingTime <= 0 || shippingCost <= 0 || expeditedShippingCost <= 0 ||
-        finalShippingCost <= 0 ||sellerId <= 0){
+        price <= 0 || shippingTime <= 0 || shippingCost <= 0 || expeditedShippingCost <= 0 ||sellerId <= 0){
             return new SellerQueryResult(SellerServiceQueryStatus.INVALID_INPUT, "Invalid values provided, Please try again");
         }
 
