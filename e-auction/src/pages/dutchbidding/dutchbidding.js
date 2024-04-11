@@ -35,12 +35,11 @@ function DutchBidding() {
     }
   }, [item.itemId]);
 
-  const buyNow = () => async()=>{
-    console.log('Buy Now clicked for item:', item.itemId, 'by user:', userName);
+  const buyNow = async()=>{
     try{
       const response3 = await axios.get(`https://authorizationservice-fm4o.onrender.com/getUserId/${userName}`);
       if(response3.data.status =='OK'){
-        const userId = response3.data.data;
+        const userId = response3.data.data.UserId;
         const response2 = await axios.put(`https://auctionservice.onrender.com/endAuction/${item.itemId}/${userId}`);
         if(response2.data.status =='OK'){
           const response = await axios.put(`https://auctionservice.onrender.com/endAuction/${item.itemId}`)
@@ -76,7 +75,7 @@ function DutchBidding() {
         </div>
         <div className="bidding-details">
           <p className="current-price">Current Price: {currentPrice}</p>
-          <button onClick={buyNow} className="buy-now-btn">BUY NOW!</button>
+          <button onClick={buyNow} className="buy-now-btn" type = 'submit'>BUY NOW!</button>
         </div>
       </div>
     </div>
