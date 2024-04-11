@@ -48,7 +48,7 @@ public class AuctionController {
     }
 
     @RequestMapping(value="/endAuction/{itemId}/{userID}", method=RequestMethod.PUT)
-    public ResponseEntity<Map<String,Object>> updateWinnerDucth(@PathVariable("itemId") int itemId, @PathVariable("userName") int userID) {
+    public ResponseEntity<Map<String,Object>> updateWinnerDucth(@PathVariable("itemId") int itemId, @PathVariable("userID") int userID) {
          Map<String,Object>  response = new HashMap<>();
          AuctionQueryResult auctionQueryResult = auctionImpl.endAuction(itemId,userID);
          response.put("message", auctionQueryResult.getMessage());
