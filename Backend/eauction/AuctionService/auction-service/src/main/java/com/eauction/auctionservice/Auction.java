@@ -7,5 +7,6 @@ public interface Auction {
     AuctionQueryResult getAuctionedItemDetails(int itemId);
     AuctionQueryResult getRemainingTimeUpdate(int itemId); 
     AuctionQueryResult endAuction (int itemId);
+    AuctionQueryResult endAuction (int itemId,int userID);
     AuctionQueryResult createAuction(Map<String,String> auction);
 }

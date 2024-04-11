@@ -237,6 +237,26 @@ public class AuctionImpl implements Auction {
                 return new AuctionQueryResult(AuctionQueryResultStatus.ERROR, "Error retrieving auction details for item with ID: " + itemId);
             }
         }
+
+        @Override
+        public AuctionQueryResult endAuction(int itemId, int userID) {
+            try (Connection connection = databaseConnection.connect()) {
+                String query = "UPDATE Auctions SET WinningBidder = ? WHERE ItemID = ?";
+                try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                    preparedStatement.setInt(1, userID);
+                    preparedStatement.setInt(2, itemId);
+                    int rowsAffected = preparedStatement.executeUpdate();
+                    if (rowsAffected > 0) {
+                        return new AuctionQueryResult(AuctionQueryResultStatus.SUCCESS, "Winner bidder update successful");
+                    } else {
+                        return new AuctionQueryResult(AuctionQueryResultStatus.NOT_FOUND, "Winner bidder update unsuccessful");
+                    }
+                }
+            } catch (SQLException e) {
+                return new AuctionQueryResult(AuctionQueryResultStatus.ERROR, "Failed to reset winnerbidde" + e.getMessage());
+            }
+        }
+    
+        }
         
-}
     

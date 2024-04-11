@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
-@CrossOrigin(origins = "https://kwshr.github.io/*")
+@CrossOrigin(origins = {"https://kwshr.github.io/*","http://localhost:3000/*" })
 @RestController
 @RequestMapping
 public class AuctionController {
@@ -43,6 +42,15 @@ public class AuctionController {
     public ResponseEntity<Map<String,Object>> createAuction(@RequestBody Map<String,String> auction) {
          Map<String,Object>  response = new HashMap<>();
          AuctionQueryResult auctionQueryResult = auctionImpl.createAuction(auction);
+         response.put("message", auctionQueryResult.getMessage());
+         response.put("queryStatus", auctionQueryResult.getAuctionStatus());
+         return HttpResponseStatus.setResponse(response);
+    }
+
+    @RequestMapping(value="/endAuction/{itemId}/{userID}", method=RequestMethod.PUT)
+    public ResponseEntity<Map<String,Object>> updateWinnerDucth(@PathVariable("itemId") int itemId, @PathVariable("userName") int userID) {
+         Map<String,Object>  response = new HashMap<>();
+         AuctionQueryResult auctionQueryResult = auctionImpl.endAuction(itemId,userID);
          response.put("message", auctionQueryResult.getMessage());
          response.put("queryStatus", auctionQueryResult.getAuctionStatus());
          return HttpResponseStatus.setResponse(response);

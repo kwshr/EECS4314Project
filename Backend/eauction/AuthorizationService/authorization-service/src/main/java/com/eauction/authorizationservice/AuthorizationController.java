@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.common.User;
 import java.util.*;
 
-@CrossOrigin(origins = "https://kwshr.github.io/*")
+@CrossOrigin(origins = {"https://kwshr.github.io/*","http://localhost:3000/*" })
 @RestController
 @RequestMapping
 public class AuthorizationController {

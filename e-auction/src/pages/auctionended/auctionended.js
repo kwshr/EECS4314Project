@@ -107,7 +107,7 @@ function AuctionEnded() {
           <p>Highest Bidder: {winningBidder.username}</p>
           <p>Winning Price: ${winningBidder.winningPrice}</p>
           {/* {userName === winningBidder.username && ( */}
-            <button onClick={handlePayment} className="pay-now-btn">
+            <button onClick={handlePayment} className="pay-now-btn" disabled={userName !== winningBidder.username}>
               Pay Now
             </button>
           {/* )} */}
