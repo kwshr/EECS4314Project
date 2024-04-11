@@ -61,6 +61,7 @@ public class SellerController {
         }
         response.put("message",sellerQueryResult.getMessage());
         response.put("queryStatus", sellerQueryResult.getSellerServiceQueryStatus());
+        response.put("data",sellerQueryResult.getData());
         return HttpResponseStatus.setResponse(response);
     }
 
